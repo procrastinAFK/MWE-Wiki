@@ -1,0 +1,25 @@
+mayaB -- 2025-10-23 23:03
+INITIAL DD REVIEW
+	program components:
+		- need a few more details in component explanations, too vague right now
+		component map + explanation:
+		+ well organized
+		- need better explanation of interactions, when we need to use flask
+	database organization:
+		+ good examples used for clarity
+		Q need to find out how we might implement creation date field in table
+	page data:
+		+ cool to have editor field in a page's data, good explanations for columns
+		- what if multiple people edit the same part of the page? current table doesn't support crediting all
+	user data:
+		+ good idea to keep hashed passwords
+	front end:
+		+ nice webpage diagram, well-organized front end diagram
+		Q what happens to "edited by: ____" when there is a really long list of editors?
+	task delegation:
+		- split a little more evenly
+
+mayaB -- 2025-10-27 02:49
+DD PIVOT CHANGES:
+  Made a new design doc conscious of the feedback from the DD.
+	New doc reflects shift in assignment.
