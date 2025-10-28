@@ -2,15 +2,20 @@
 
 ### Project 00 Roles:
 Project Manager: Maya
-<br>
+
 Dev1: Ashley
-<br>
+
 Dev2: Evan
-<br>
+
 Dev3: Robert
-<br>
 
 ### Description of Wiki:
+- When going onto the website, there will be a defaulted log-in page that can be swapped between the register page.
+- Once logged in or registered, the user will be directed to home.
+- At home, there are options to go into profile, or view blogs.
+- At profile, you can edit yout profile, view blogs, and create blogs.
+- At view blogs, there are options to edit entry and create a new entry.
+- User can log out in home, and profile page.
 
 ### Install Guides:
 - Go to the top of the GitHub repo and click on the green "Code" button
