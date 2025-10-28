@@ -13,7 +13,7 @@ Dev3: Robert
 - When going onto the website, there will be a defaulted log-in page that can be swapped between the register page.
 - Once logged in or registered, the user will be directed to home.
 - At home, there are options to go into profile, or view blogs.
-- At profile, you can edit yout profile, view blogs, and create blogs.
+- At profile, you can edit your profile, view blogs, and create blogs.
 - At view blogs, there are options to edit entry and create a new entry.
 - User can log out in home, and profile page.
 
