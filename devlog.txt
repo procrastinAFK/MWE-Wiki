@@ -23,3 +23,12 @@ mayaB -- 2025-10-27 02:49
 DD PIVOT CHANGES:
   Made a new design doc conscious of the feedback from the DD.
 	New doc reflects shift in assignment.
+
+mayaB -- 2025-10-27 11:19
+DD PIVOT REVISIONS:
+	Added python file to store helpers so as not to crowd app.py
+	Changed "one table per blog" approach to one table of all entries with a column for blog id
+	Added arrows & better labels to component map
+	Added a blog id column in blog table, PK
+	Added priority ranking to task delegation
+	Made minor changes in diagrams to reflect changes to components plus a few for clarity
