@@ -32,3 +32,11 @@ DD PIVOT REVISIONS:
 	Added a blog id column in blog table, PK
 	Added priority ranking to task delegation
 	Made minor changes in diagrams to reflect changes to components plus a few for clarity
+
+mayaB -- 2025-10-28 10:37
+INSTALL GUIDE, LAUNCH CODES, RUNNING APP
+	In class, finished updating install guide + launch codes
+	At home, made app that runs.
+		Created login.html
+		Created home.html
+		Used minimal auth to "log in" (just provide a username...)
