@@ -9,7 +9,7 @@ Dev2: Evan
 
 Dev3: Robert
 
-### Description of Wiki:
+### Description of Blog Site:
 - When going onto the website, there will be a defaulted log-in page that can be swapped between the register page.
 - Once logged in or registered, the user will be directed to home.
 - At home, there are options to go into profile, or view blogs.
