@@ -51,5 +51,7 @@ def auth(username, password):
     real_pass = real_pass[0]
     return real_pass == password
 
+
+
 db.commit() #save changes
 db.close()  #close database
