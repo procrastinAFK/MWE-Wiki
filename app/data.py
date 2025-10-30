@@ -25,10 +25,8 @@ c.execute("CREATE TABLE IF NOT EXISTS entries(entry_name TEXT NOT NULL, entry_id
 
 def user_exists(username):
     all_users = c.execute("SELECT username FROM userdata;").fetchall()
-    print(all_users)
     for user in all_users:
-        print(user)
-        if (user == username):
+        if (user[0] == username):
             return True
     return False
 
@@ -52,13 +50,6 @@ def auth(username, password):
     real_pass = c.execute(f"SELECT password FROM userdata WHERE username = {username};").fetchall()
     real_pass = real_pass[0]
     return real_pass == password
-
-#print(user_exists("maya"))
-#register_user("maya", "securefrfr")
-#print(user_exists("maya"))
-user_exists("maya")
-data = c.execute("SELECT * FROM userdata;").fetchall()
-print(data)
 
 db.commit() #save changes
 db.close()  #close database
