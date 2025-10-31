@@ -4,7 +4,10 @@
 
 from flask import Flask, render_template, request, session, redirect
 import sqlite3
-from data.py import *
+import subprocess
+from data import *
+
+subprocess.run(["python", "data.py"])
 
 app = Flask(__name__)
 
@@ -19,6 +22,7 @@ def login():
     
     if request.method == 'POST':
         if auth(request.form['username'], request.form['password']):
+            print("good things")
             session['username'] = request.form['username']
             return redirect("/home")
     else:
@@ -26,7 +30,7 @@ def login():
 
 @app.route("/home", methods=['GET','POST']) # will need to use post for password at the very least
 def authenticate():
-    return render_template('home.html', username=username) 
+    return render_template('home.html') 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

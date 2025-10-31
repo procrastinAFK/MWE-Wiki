@@ -24,7 +24,11 @@ c.execute("CREATE TABLE IF NOT EXISTS blogs(blog_name TEXT NOT NULL, blog_id TEX
 c.execute("CREATE TABLE IF NOT EXISTS entries(entry_name TEXT NOT NULL, entry_id TEXT PRIMARY KEY NOT NULL, blog_id TEXT NOT NULL, upload_date DATE NOT NULL, edit_date DATE NOT NULL, contents TEXT);")
 
 def user_exists(username):
-    all_users = c.execute("SELECT username FROM userdata;").fetchall()
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    all_users = c.execute("SELECT username FROM userdata")
     for user in all_users:
         if (user[0] == username):
             return True
@@ -32,23 +36,31 @@ def user_exists(username):
 
 # RETURN VALUES ARE TEMPORARY
 def register_user(username, password):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
     if user_exists(username):
         # throw error here
         return "bad"
     # hash password here?
     # retrieve date it yyyy-mm-dd format
     date = datetime.today().strftime('%Y-%m-%d')
-    c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", {date}, NULL, NULL);')
+    c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", {date}, NULL, NULL)')
     return "success"
 
 # RETURN VALUES ARE TEMPORARY
 def auth(username, password):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
     if not user_exists(username):
         # throw some error here maybe?
         return "user doesn't exist"
     # hash password here? (MUST MATCH other hash from register)
-    real_pass = c.execute(f"SELECT password FROM userdata WHERE username = {username};").fetchall()
-    real_pass = real_pass[0]
+    real_pass = c.execute(f"SELECT password FROM userdata WHERE username = {username}")
+    real_pass = real_pass.fetchone()
     return real_pass == password
 
 db.commit() #save changes
