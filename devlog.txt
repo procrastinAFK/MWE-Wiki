@@ -40,3 +40,8 @@ INSTALL GUIDE, LAUNCH CODES, RUNNING APP
 		Created login.html
 		Created home.html
 		Used minimal auth to "log in" (just provide a username...)
+
+mayaB -- 2025-10-31 10:50
+     Updated readme description 
+     Began working on static parts of HTML tenplates
+     Login/register progress in data.py
