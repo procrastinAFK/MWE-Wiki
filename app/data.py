@@ -75,14 +75,9 @@ def auth(username, password):
         return "user doesn't exist"
     # hash password here? (MUST MATCH other hash from register)
     real_pass = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"').fetchall()
-    # WHY
+    # gives a 2d list for some reason??
     real_pass = real_pass[0][0]
-    print(real_pass)
     return real_pass == password
 
-print(auth("tester","abc"))
-print(auth("tester","ab"))
-print(auth("tesrrter","abc"))
-print(c.execute("SELECT * FROM userdata").fetchall())
 db.commit() #save changes
 db.close()  #close database
