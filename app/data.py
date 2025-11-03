@@ -65,15 +65,17 @@ def auth(username, password):
     
     if not user_exists(username):
         # throw some error here maybe?
+        print("user dne")
         db.commit()
         db.close()
         return False
     # hash password here? (MUST MATCH other hash from register)
-    real_pass = c.execute(f"SELECT password FROM userdata WHERE username = {username}")
-    real_pass = real_pass.fetchone()
+    real_pass = c.execute(f"SELECT password FROM userdata WHERE username = \"{username}\"")
+    real_password = real_pass.fetchone()
+    print(real_password)
     db.commit()
     db.close()
-    return real_pass == password
+    return real_password[0] == password
 
 db.commit() #save changes
 db.close()  #close database

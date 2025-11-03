@@ -17,18 +17,18 @@ app.secret_key = 'asdhajskjbweifnoihgis'
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    if session.get('username'):
-        return redirect("/home")
-    
-    print("idk even more")
     if request.method == 'POST':
-        print("maybe good things")
+        #print("maybe good things")
+        print(auth(request.form['username'], request.form['password']))
         if auth(request.form['username'], request.form['password']):
-            print("good things")
+            #print("good things")
             session['username'] = request.form['username']
             return redirect("/home")
-    else:
-        return render_template('login.html');
+        
+    elif session['username']:
+        return redirect("/home")
+        
+    return render_template('login.html');
 
 @app.route("/home", methods=['GET','POST']) # will need to use post for password at the very least
 def authenticate():
