@@ -54,7 +54,7 @@ def user_exists(username):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    
+
     all_users = c.execute("SELECT username FROM userdata")
     for user in all_users:
         if (user[0] == username):
@@ -70,7 +70,7 @@ def register_user(username, password):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    
+
     if user_exists(username):
         # throw error here
         db.commit()
@@ -89,7 +89,7 @@ def auth(username, password):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    
+
     if not user_exists(username):
         # throw some error here maybe?
         print("user dne")
@@ -99,10 +99,40 @@ def auth(username, password):
     # hash password here? (MUST MATCH other hash from register)
     real_pass = c.execute(f"SELECT password FROM userdata WHERE username = \"{username}\"")
     real_password = real_pass.fetchone()
-    print(real_password)
+    
     db.commit()
     db.close()
+    
     return real_password[0] == password
+
+
+#=============================BLOGS-ENTRIES=============================#
+
+# helper for add_entry and edit_entry
+def entry_exists(entry_id, blog_id):
+    
+
+# add a *NEW* entry to a blog
+def add_entry(entry_name, blog_id, contents):
+    # retrieve date it yyyy-mm-dd format
+    # GENERATE ID HERE
+    entry_id = genEntryID()
+    date = datetime.today().strftime('%Y-%m-%d')
+    c.execute(f'INSERT INTO entries VALUES ("{entry_name}", "{entry_id}", "{blog_id}", "{date}", "{date}", "{contents}"')
+
+def edit_entry():
+
+# get all the entries associated with a certain blog
+def get_entries(blog_id):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    entries = c.execute(f"SELECT entry_name FROM entries WHERE blog_id = \"{blog_id}").fetchall()
+    print(entries)
+    
+    db.commit()
+    db.close()
 
 db.commit() #save changes
 db.close()  #close database
