@@ -22,7 +22,8 @@ c.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT PRIMARY KEY NOT NUL
 c.execute("CREATE TABLE IF NOT EXISTS blogs(blog_name TEXT NOT NULL, blog_id TEXT PRIMARY KEY NOT NULL, author_username TEXT NOT NULL);")
 # entries
 c.execute("CREATE TABLE IF NOT EXISTS entries(entry_name TEXT NOT NULL, entry_id TEXT PRIMARY KEY NOT NULL, blog_id TEXT NOT NULL, upload_date DATE NOT NULL, edit_date DATE NOT NULL, contents TEXT);")
-
+#docdata
+c.execute("CREATE TABLE IF NOT EXISTS docdata(document TEXT PRIMARY KEY NOT NULL, creation_date DATE NOT NULL, bio TEXT, blog_ids TEXT);")
 def user_exists(username):
     all_users = c.execute("SELECT username FROM userdata;").fetchall()
     for user in all_users:
@@ -50,6 +51,18 @@ def auth(username, password):
     real_pass = c.execute(f"SELECT password FROM userdata WHERE username = {username};").fetchall()
     real_pass = real_pass[0]
     return real_pass == password
+
+def doc_exists(docname, username):
+    all_docs = c.execute("SELECT document FROM docdata;").fetchall()
+    for doc in all_docs:
+        if (doc[0] == document):
+            return True
+    return False
+
+def post(docname):
+    if doc_exists(docname):
+        return "Document already exists"
+    
 
 db.commit() #save changes
 db.close()  #close database
