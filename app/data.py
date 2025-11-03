@@ -31,7 +31,11 @@ def user_exists(username):
     all_users = c.execute("SELECT username FROM userdata")
     for user in all_users:
         if (user[0] == username):
+            db.commit()
+            db.close()
             return True
+    db.commit()
+    db.close()
     return False
 
 # RETURN VALUES ARE TEMPORARY
@@ -42,11 +46,15 @@ def register_user(username, password):
     
     if user_exists(username):
         # throw error here
+        db.commit()
+        db.close()
         return "bad"
     # hash password here?
     # retrieve date it yyyy-mm-dd format
     date = datetime.today().strftime('%Y-%m-%d')
     c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", {date}, NULL, NULL)')
+    db.commit()
+    db.close()
     return "success"
 
 # RETURN VALUES ARE TEMPORARY
@@ -57,10 +65,14 @@ def auth(username, password):
     
     if not user_exists(username):
         # throw some error here maybe?
-        return "user doesn't exist"
+        db.commit()
+        db.close()
+        return False
     # hash password here? (MUST MATCH other hash from register)
     real_pass = c.execute(f"SELECT password FROM userdata WHERE username = {username}")
     real_pass = real_pass.fetchone()
+    db.commit()
+    db.close()
     return real_pass == password
 
 db.commit() #save changes

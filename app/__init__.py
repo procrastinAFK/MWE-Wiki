@@ -20,7 +20,9 @@ def login():
     if session.get('username'):
         return redirect("/home")
     
+    print("idk even more")
     if request.method == 'POST':
+        print("maybe good things")
         if auth(request.form['username'], request.form['password']):
             print("good things")
             session['username'] = request.form['username']
