@@ -2,53 +2,75 @@
 # p00
 # Softdev
 
+import sqlite3   #enable control of an sqlite database
+import secrets  # used to generate ids
 from datetime import datetime # for user signup date
 
-import sqlite3   #enable control of an sqlite database
-
-import secrets  # used to generate ids
-
-
-DB_FILE="data.db"
-
-db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
-c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
 #=============================MAKE=TABLES=============================#
 
 # make the database tables we need if they don't already exist
 
 # userdata
-c.execute("""
-    CREATE TABLE IF NOT EXISTS userdata (
-        username TEXT PRIMARY KEY NOT NULL,
-        password TEXT NOT NULL,
-        sign_up_date DATE NOT NULL,
-        bio TEXT,
-        blog_ids TEXT
-    )"""
-)
+def create_user_data():
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS userdata (
+            username TEXT PRIMARY KEY NOT NULL,
+            password TEXT NOT NULL,
+            sign_up_date DATE NOT NULL,
+            bio TEXT,
+            blog_ids TEXT
+        )"""
+    )
+    
+    db.commit()
+    db.close()
+
 
 # blogs
-c.execute("""
-    CREATE TABLE IF NOT EXISTS blogs (
-        blog_name TEXT NOT NULL,
-        blog_id TEXT PRIMARY KEY NOT NULL,
-        author_username TEXT NOT NULL
-    )"""
-)
+def create_blog_data():
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS blogs (
+            blog_name TEXT NOT NULL,
+            blog_id TEXT PRIMARY KEY NOT NULL,
+            author_username TEXT NOT NULL
+        )"""
+    )
+    
+    db.commit()
+    db.close()
+
 
 # entries
-c.execute("""
-    CREATE TABLE IF NOT EXISTS entries (
-        entry_name TEXT NOT NULL,
-        entry_id TEXT PRIMARY KEY NOT NULL,
-        blog_id TEXT NOT NULL,
-        upload_date DATE NOT NULL,
-        edit_date DATE NOT NULL,
-        contents TEXT
-    )"""
-)
+def create_entry_data():
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS entries (
+            entry_name TEXT NOT NULL,
+            entry_id TEXT PRIMARY KEY NOT NULL,
+            blog_id TEXT NOT NULL,
+            upload_date DATE NOT NULL,
+            edit_date DATE NOT NULL,
+            contents TEXT
+        )"""
+    )
+    
+    db.commit()
+    db.close()
 
 
 #=============================LOGIN=REGISTER=============================#
@@ -118,7 +140,20 @@ def auth(username, password):
 
 
 
-#=============================BLOGS-ENTRIES-MAIN=============================#
+#=============================BLOGS=============================#
+
+
+#----------BLOG-ACCESSORS----------#
+
+
+#----------BLOG-MUTATORS----------#
+
+
+#----------BLOG-HELPERS----------#
+
+
+
+#=============================ENTRIES=============================#
 
 
 #----------ENTRY-ACCESSORS----------#
@@ -254,8 +289,9 @@ def clean_list(raw_output):
     return clean_output
 
 
-#=============================FILE=END=============================#
+#=============================MAIN=SCRIPT=============================#
 
-
-db.commit() #save changes
-db.close()  #close database
+# make tables
+create_user_data()
+create_blog_data()
+create_entry_data()
