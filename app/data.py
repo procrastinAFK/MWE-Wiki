@@ -6,7 +6,7 @@ from datetime import datetime # for user signup date
 
 import sqlite3   #enable control of an sqlite database
 
-import secrets
+import secrets  # used to generate ids
 
 
 DB_FILE="data.db"
@@ -54,6 +54,7 @@ c.execute("""
 #=============================LOGIN=REGISTER=============================#
 
 
+# returns whether or not a user exists
 def user_exists(username):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -65,12 +66,14 @@ def user_exists(username):
             db.commit()
             db.close()
             return True
+    
     db.commit()
     db.close()
     return False
 
 
-# RETURN VALUES ARE TEMPORARY
+# FUNCTIONAL BUT MORE STUFF TBA
+# adds a new user's data to user table
 def register_user(username, password):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -90,7 +93,8 @@ def register_user(username, password):
     return "success"
 
 
-# RETURN VALUES ARE TEMPORARY
+# FUNCTIONAL BUT MORE STUFF TBA
+# checks if provided password in login attempt matches user password
 def auth(username, password):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -102,6 +106,7 @@ def auth(username, password):
         db.commit()
         db.close()
         return False
+    
     # hash password here? (MUST MATCH other hash from register)
     real_pass = c.execute(f"SELECT password FROM userdata WHERE username = \"{username}\"")
     real_password = real_pass.fetchone()
@@ -116,7 +121,7 @@ def auth(username, password):
 #=============================BLOGS-ENTRIES-MAIN=============================#
 
 
-#----------ACCESSORS----------#
+#----------ENTRY-ACCESSORS----------#
 
 
 # get all the entries associated with a certain blog
@@ -132,7 +137,6 @@ def get_entries(blog_id):
     
     # extract values from tuples so we can just return a 1d list
     return clean_list(entries)
-
 
 # wrapper method
 def get_entry_name(entry_id):
@@ -164,7 +168,8 @@ def get_entry_all(entry_id):
     data += [get_entry_field(entry_id, 'contents')]
     return data
 
-#----------MUTATORS----------#
+
+#----------ENTRY-MUTATORS----------#
 
 
 # add a *NEW* entry to a blog, return ID
@@ -183,6 +188,7 @@ def add_entry(entry_name, blog_id, contents):
     return entry_id
 
 
+# modify the entry_name and/or entry's contents
 def update_entry(entry_id, entry_name, contents):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -195,8 +201,9 @@ def update_entry(entry_id, entry_name, contents):
     db.close()
 
 
-#----------HELPERS----------#
+#----------ENTRY-HELPERS----------#
 
+# generate an id for a new entry
 def gen_entry_id():
     # use secrets module to generate a random 32-byte string
     ID = secrets.token_hex(32)
@@ -207,6 +214,7 @@ def gen_entry_id():
     return ID
 
 
+# used for a bunch of accessor methods above
 def get_entry_field(entry_id, field):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -218,6 +226,8 @@ def get_entry_field(entry_id, field):
     db.close()
     return data[0]
 
+
+# helper for gen_entry_id
 def entry_exists(entry_id):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -235,7 +245,7 @@ def entry_exists(entry_id):
 
 
 
-#=============================GEN=HELPERS=============================#
+#=============================GENERAL=HELPERS=============================#
 
 
 # turn a list of tuples (returned by .fetchall()) into a 1d list
