@@ -83,6 +83,7 @@ def user_exists(username):
     c = db.cursor()
 
     all_users = c.execute("SELECT username FROM userdata")
+    
     for user in all_users:
         if (user[0] == username):
             db.commit()
@@ -130,7 +131,7 @@ def auth(username, password):
         return False
     
     # hash password here? (MUST MATCH other hash from register)
-    real_pass = c.execute(f"SELECT password FROM userdata WHERE username = \"{username}\"")
+    real_pass = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
     real_password = real_pass.fetchone()
     
     db.commit()
@@ -146,11 +147,53 @@ def auth(username, password):
 #----------BLOG-ACCESSORS----------#
 
 
+# wrapper method
+# get all the entry_ids associated with a certain blog
+def get_entries(blog_id):
+    return get_field_list('entries', 'blog_id', blog_id, 'entry_id')
+
+
 #----------BLOG-MUTATORS----------#
+
+
+# create a *NEW* blog, return ID
+def new_blog(blog_name, author_username):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    blog_id = gen_id()
+    # make sure the id is unique
+    while (blog_exists(blog_id)):
+        blog_id = gen_id()
+    
+    c.execute(f'INSERT INTO blogs VALUES ("{blog_name}", "{blog_id}", "{author_username}")')
+    
+    db.commit()
+    db.close()
+    return blog_id
 
 
 #----------BLOG-HELPERS----------#
 
+
+# helper for new_blog
+def blog_exists(blog_id):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    matching_blog = c.execute(f'SELECT * FROM blogs WHERE blog_id = "{blog_id}"').fetchall()
+    if len(matching_blog) > 0:
+        db.commit()
+        db.close()
+        return True
+    
+    db.commit()
+    db.close()
+    return False
 
 
 #=============================ENTRIES=============================#
@@ -159,49 +202,30 @@ def auth(username, password):
 #----------ENTRY-ACCESSORS----------#
 
 
-# get all the entries associated with a certain blog
-def get_entries(blog_id):
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    
-    entries = c.execute(f'SELECT entry_id FROM entries WHERE blog_id = "{blog_id}"').fetchall()
-    
-    db.commit()
-    db.close()
-    
-    # extract values from tuples so we can just return a 1d list
-    return clean_list(entries)
-
 # wrapper method
 def get_entry_name(entry_id):
-    return get_entry_field(entry_id, 'entry_name')
+    return get_field('entries', 'entry_id', entry_id, 'entry_name')
 
 # wrapper method
 def get_entry_blog(entry_id):
-    return get_entry_field(entry_id, 'blog_id')
+    return get_field('entries', 'entry_id', entry_id, 'blog_id')
 
 # wrapper method
 def get_entry_udate(entry_id):
-    return get_entry_field(entry_id, 'upload_date')
+    return get_field('entries', 'entry_id', entry_id, 'upload_date')
 
 # wrapper method
 def get_entry_edate(entry_id):
-    return get_entry_field(entry_id, 'edit_date')
+    return get_field('entries', 'entry_id', entry_id, 'edit_date')
 
 # wrapper method
 def get_entry_contents(entry_id):
-    return get_entry_field(entry_id, 'contents')
+    return get_field('entries', 'entry_id', entry_id, 'contents')
 
 # returns a list of every field associated with this entry_id (besides the id itself)
+# wrapper method
 def get_entry_all(entry_id):
-    data = []
-    data += [get_entry_field(entry_id, 'entry_name')]
-    data += [get_entry_field(entry_id, 'blog_id')]
-    data += [get_entry_field(entry_id, 'upload_date')]
-    data += [get_entry_field(entry_id, 'edit_date')]
-    data += [get_entry_field(entry_id, 'contents')]
-    return data
+    return get_all_fields('entries', 'entry_id', entry_id)
 
 
 #----------ENTRY-MUTATORS----------#
@@ -209,11 +233,16 @@ def get_entry_all(entry_id):
 
 # add a *NEW* entry to a blog, return ID
 def add_entry(entry_name, blog_id, contents):
+    
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     
-    entry_id = gen_entry_id()
+    entry_id = gen_id()
+    # make sure the id is unique
+    while (entry_exists(entry_id)):
+        entry_id = gen_id()
+    
     # retrieve date in yyyy-mm-dd format
     date = datetime.today().strftime('%Y-%m-%d')
     c.execute(f'INSERT INTO entries VALUES ("{entry_name}", "{entry_id}", "{blog_id}", "{date}", "{date}", "{contents}")')
@@ -225,6 +254,7 @@ def add_entry(entry_name, blog_id, contents):
 
 # modify the entry_name and/or entry's contents
 def update_entry(entry_id, entry_name, contents):
+    
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -238,32 +268,10 @@ def update_entry(entry_id, entry_name, contents):
 
 #----------ENTRY-HELPERS----------#
 
-# generate an id for a new entry
-def gen_entry_id():
-    # use secrets module to generate a random 32-byte string
-    ID = secrets.token_hex(32)
-    # make sure the ID really is unique
-    # btw this will crash the app if there are enough users... but we'd need like 2^32 users sooo
-    while entry_exists(ID):
-        ID = secrets.token_hex(32)
-    return ID
 
-
-# used for a bunch of accessor methods above
-def get_entry_field(entry_id, field):
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    
-    data = c.execute(f'SELECT {field} FROM entries WHERE entry_id = "{entry_id}"').fetchone()
-    
-    db.commit()
-    db.close()
-    return data[0]
-
-
-# helper for gen_entry_id
+# helper for add_entry
 def entry_exists(entry_id):
+    
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -283,9 +291,67 @@ def entry_exists(entry_id):
 #=============================GENERAL=HELPERS=============================#
 
 
+# generate an id
+def gen_id():
+    # use secrets module to generate a random 32-byte string
+    return secrets.token_hex(32)
+
+
+# used for a bunch of accessor methods; used when only 1 item should be returned
+def get_field(table, ID_fieldname, ID, field):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchone()
+    
+    db.commit()
+    db.close()
+    
+    return data[0]
+
+
+# used for a bunch of accessor methods; used when a list of items in a certain field should be returned
+def get_field_list(table, ID_fieldname, ID, field):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchall()
+    
+    db.commit()
+    db.close()
+    
+    return clean_list(data)
+
+
+# returns a list of every field associated with this id (including the id itself)
+def get_all_fields(table, ID_fieldname, ID):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    data = c.execute(f'SELECT * FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchall()
+    
+    db.commit()
+    db.close()
+    
+    return clean_list(data)
+
+
 # turn a list of tuples (returned by .fetchall()) into a 1d list
 def clean_list(raw_output):
-    clean_output = [raw_output[i][0] for i in range(len(raw_output))]
+    
+    #clean_output = [raw_output[i][0] for i in range(len(raw_output))]
+    
+    clean_output = []
+    for lst in raw_output:
+        for item in lst:
+            clean_output += [item]
+    
     return clean_output
 
 
@@ -295,3 +361,13 @@ def clean_list(raw_output):
 create_user_data()
 create_blog_data()
 create_entry_data()
+
+
+blog1 = new_blog("blog1", "maya")
+key1 = add_entry("entry1", blog1, "contents1")
+update_entry(key1, "updateentry1", "updatecontents1")
+key2 = add_entry("entry2", blog1, "contents2")
+print(get_entry_all(key1))
+print(get_entry_udate(key2))
+print(get_entries(blog1))
+
