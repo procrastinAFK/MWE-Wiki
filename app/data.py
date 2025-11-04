@@ -73,7 +73,124 @@ def create_entry_data():
     db.close()
 
 
-#=============================LOGIN=REGISTER=============================#
+#=============================USERDATA=============================#
+
+
+#----------USERDATA-ACCESSORS----------#
+
+
+def get_sign_up_date(username):
+    return get_field('userdata', 'username', username, 'sign_up_date')
+
+
+def get_bio(username):
+    return get_field('userdata', 'username', username, 'bio')
+
+
+def get_blogs(username):
+    # blog ids are stored as text; split the string (delimiter = space)
+    # cut the first item, which is 'None'
+    return get_field('userdata', 'username', username, 'blog_ids').split(' ')[1:]
+
+
+#----------USERDATA-MUTATORS----------#
+
+
+# FUNCTIONAL BUT MORE STUFF TBA
+# adds a new user's data to user table
+def register_user(username, password):
+
+    if user_exists(username):
+        # throw error here
+        return "bad"
+    
+    # hash password here?
+    # retrieve date in yyyy-mm-dd format
+    date = datetime.today().strftime('%Y-%m-%d')
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", "{date}", NULL, NULL)')
+    
+    db.commit()
+    db.close()
+    
+    return "success"
+
+
+# FUNCTIONAL BUT MORE STUFF TBA
+def change_username(old_username, new_username):
+    
+    if user_exists(new_username):
+        # throw error here
+        return "bad"
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    # update stuff associated with old username
+    c.execute(f'UPDATE blogs SET author_username = "{new_username}" WHERE username = "{old_username}"')
+    c.execute(f'UPDATE userdata SET username = "{new_username}" WHERE username = "{old_username}"')
+    
+    db.commit()
+    db.close()
+    
+    return "success"
+
+
+# FUNCTIONAL BUT MORE STUFF TBA
+def change_password(username, old_pass, new_pass):
+    
+    if not auth(username, old_pass):
+        return "bad"
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    c.execute(f'UPDATE userdata SET password = "{new_pass}" WHERE username = "{username}"')
+    
+    db.commit()
+    db.close()
+    
+    return "success"
+
+
+def change_bio(username, contents):
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    # get current list of stuff in the row
+    c.execute(f'UPDATE userdata SET bio = "{contents}" WHERE username = "{username}"')
+    
+    db.commit()
+    db.close()
+
+
+def add_blog(blog_name, author_username):
+    
+    blog_id = new_blog(blog_name, author_username)
+    other_blogs = get_field('userdata', 'username', author_username, 'blog_ids')
+    
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    # get current list of stuff in the row
+    c.execute(f'UPDATE userdata SET blog_ids = "{other_blogs} {blog_id}" WHERE username = "{author_username}"')
+    
+    db.commit()
+    db.close()
+    
+    return blog_id
+
+
+#----------USERDATA-HELPERS----------#
 
 
 # returns whether or not a user exists
@@ -93,27 +210,6 @@ def user_exists(username):
     db.commit()
     db.close()
     return False
-
-
-# FUNCTIONAL BUT MORE STUFF TBA
-# adds a new user's data to user table
-def register_user(username, password):
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    if user_exists(username):
-        # throw error here
-        db.commit()
-        db.close()
-        return "bad"
-    # hash password here?
-    # retrieve date in yyyy-mm-dd format
-    date = datetime.today().strftime('%Y-%m-%d')
-    c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", {date}, NULL, NULL)')
-    db.commit()
-    db.close()
-    return "success"
 
 
 # FUNCTIONAL BUT MORE STUFF TBA
@@ -147,7 +243,6 @@ def auth(username, password):
 #----------BLOG-ACCESSORS----------#
 
 
-# wrapper method
 # get all the entry_ids associated with a certain blog
 def get_entries(blog_id):
     return get_field_list('entries', 'blog_id', blog_id, 'entry_id')
@@ -156,6 +251,7 @@ def get_entries(blog_id):
 #----------BLOG-MUTATORS----------#
 
 
+# **YOU SHOULDN'T BE USING THIS** see add_blog in userdata section
 # create a *NEW* blog, return ID
 def new_blog(blog_name, author_username):
     
@@ -172,7 +268,11 @@ def new_blog(blog_name, author_username):
     
     db.commit()
     db.close()
+    
     return blog_id
+
+
+# delete blog?
 
 
 #----------BLOG-HELPERS----------#
@@ -202,28 +302,27 @@ def blog_exists(blog_id):
 #----------ENTRY-ACCESSORS----------#
 
 
-# wrapper method
 def get_entry_name(entry_id):
     return get_field('entries', 'entry_id', entry_id, 'entry_name')
 
-# wrapper method
+
 def get_entry_blog(entry_id):
     return get_field('entries', 'entry_id', entry_id, 'blog_id')
 
-# wrapper method
+
 def get_entry_udate(entry_id):
     return get_field('entries', 'entry_id', entry_id, 'upload_date')
 
-# wrapper method
+
 def get_entry_edate(entry_id):
     return get_field('entries', 'entry_id', entry_id, 'edit_date')
 
-# wrapper method
+
 def get_entry_contents(entry_id):
     return get_field('entries', 'entry_id', entry_id, 'contents')
 
+
 # returns a list of every field associated with this entry_id (besides the id itself)
-# wrapper method
 def get_entry_all(entry_id):
     return get_all_fields('entries', 'entry_id', entry_id)
 
@@ -249,6 +348,7 @@ def add_entry(entry_name, blog_id, contents):
     
     db.commit()
     db.close()
+    
     return entry_id
 
 
@@ -264,6 +364,9 @@ def update_entry(entry_id, entry_name, contents):
     
     db.commit()
     db.close()
+
+
+# delete entry?
 
 
 #----------ENTRY-HELPERS----------#
@@ -298,20 +401,11 @@ def gen_id():
 
 
 # used for a bunch of accessor methods; used when only 1 item should be returned
-def get_field(table, ID_fieldname, ID, field):
-    
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    
-    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchone()
-    
-    db.commit()
-    db.close()
-    
-    return data[0]
+def get_field(table, ID_fieldname, ID, field):  
+    return get_field_list(table, ID_fieldname, ID, field)[0]
 
 
+# wrapper method
 # used for a bunch of accessor methods; used when a list of items in a certain field should be returned
 def get_field_list(table, ID_fieldname, ID, field):
     
@@ -345,8 +439,6 @@ def get_all_fields(table, ID_fieldname, ID):
 # turn a list of tuples (returned by .fetchall()) into a 1d list
 def clean_list(raw_output):
     
-    #clean_output = [raw_output[i][0] for i in range(len(raw_output))]
-    
     clean_output = []
     for lst in raw_output:
         for item in lst:
@@ -361,13 +453,3 @@ def clean_list(raw_output):
 create_user_data()
 create_blog_data()
 create_entry_data()
-
-
-blog1 = new_blog("blog1", "maya")
-key1 = add_entry("entry1", blog1, "contents1")
-update_entry(key1, "updateentry1", "updatecontents1")
-key2 = add_entry("entry2", blog1, "contents2")
-print(get_entry_all(key1))
-print(get_entry_udate(key2))
-print(get_entries(blog1))
-
