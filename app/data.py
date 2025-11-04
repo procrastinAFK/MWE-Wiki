@@ -6,6 +6,8 @@ from datetime import datetime # for user signup date
 
 import sqlite3   #enable control of an sqlite database
 
+import secrets
+
 
 DB_FILE="data.db"
 
@@ -77,7 +79,7 @@ def register_user(username, password):
         db.close()
         return "bad"
     # hash password here?
-    # retrieve date it yyyy-mm-dd format
+    # retrieve date in yyyy-mm-dd format
     date = datetime.today().strftime('%Y-%m-%d')
     c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", {date}, NULL, NULL)')
     db.commit()
@@ -108,19 +110,58 @@ def auth(username, password):
 
 #=============================BLOGS-ENTRIES=============================#
 
-# helper for add_entry and edit_entry
-def entry_exists(entry_id, blog_id):
+def gen_entry_id():
+    # use secrets module to generate a random 32-byte string
+    ID = secrets.token_hex(32)
+    # make sure the ID really is unique
+    # btw this will crash the app if there are enough users... but we'd need like 2^32 users sooo
+    while entry_exists(ID):
+        ID = secrets.token_hex(32)
+    return ID
+
+# helper
+def entry_exists(entry_id):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
     
+    matching_entry = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
+    print(matching_entry)
+    if len(matching_entry) > 0:
+        db.commit()
+        db.close()
+        return True
+    
+    db.commit()
+    db.close()
+    return False
 
-# add a *NEW* entry to a blog
+# add a *NEW* entry to a blog, return ID
 def add_entry(entry_name, blog_id, contents):
-    # retrieve date it yyyy-mm-dd format
-    # GENERATE ID HERE
-    entry_id = genEntryID()
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    entry_id = gen_entry_id()
+    # retrieve date in yyyy-mm-dd format
     date = datetime.today().strftime('%Y-%m-%d')
-    c.execute(f'INSERT INTO entries VALUES ("{entry_name}", "{entry_id}", "{blog_id}", "{date}", "{date}", "{contents}"')
+    c.execute(f'INSERT INTO entries VALUES ("{entry_name}", "{entry_id}", "{blog_id}", "{date}", "{date}", "{contents}")')
+    
+    db.commit()
+    db.close()
+    return entry_id
 
-def edit_entry():
+def update_entry(entry_id, contents):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    # get current list of stuff in the row
+    old_data = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
+    print(old_data)
+    
+    db.commit()
+    db.close()
 
 # get all the entries associated with a certain blog
 def get_entries(blog_id):
@@ -133,6 +174,12 @@ def get_entries(blog_id):
     
     db.commit()
     db.close()
+
+
+key = add_entry("test", "fakeblog", "hello these are the contents of the fake entry")
+print(entry_exists(key))
+print(key)
+print(entry_exists("o"))
 
 db.commit() #save changes
 db.close()  #close database
