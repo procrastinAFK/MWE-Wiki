@@ -126,7 +126,6 @@ def entry_exists(entry_id):
     c = db.cursor()
     
     matching_entry = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
-    print(matching_entry)
     if len(matching_entry) > 0:
         db.commit()
         db.close()
@@ -151,14 +150,13 @@ def add_entry(entry_name, blog_id, contents):
     db.close()
     return entry_id
 
-def update_entry(entry_id, contents):
+def update_entry(entry_id, entry_name, contents):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     
     # get current list of stuff in the row
-    old_data = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
-    print(old_data)
+    c.execute(f'UPDATE entries SET entry_name = "{entry_name}", contents = "{contents}" WHERE entry_id = "{entry_id}"')
     
     db.commit()
     db.close()
@@ -177,9 +175,7 @@ def get_entries(blog_id):
 
 
 key = add_entry("test", "fakeblog", "hello these are the contents of the fake entry")
-print(entry_exists(key))
-print(key)
-print(entry_exists("o"))
+update_entry(key, "fakeblog", "newww")
 
 db.commit() #save changes
 db.close()  #close database
