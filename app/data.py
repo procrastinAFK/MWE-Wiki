@@ -50,7 +50,9 @@ c.execute("""
     )"""
 )
 
+
 #=============================LOGIN=REGISTER=============================#
+
 
 def user_exists(username):
     DB_FILE="data.db"
@@ -66,6 +68,7 @@ def user_exists(username):
     db.commit()
     db.close()
     return False
+
 
 # RETURN VALUES ARE TEMPORARY
 def register_user(username, password):
@@ -85,6 +88,7 @@ def register_user(username, password):
     db.commit()
     db.close()
     return "success"
+
 
 # RETURN VALUES ARE TEMPORARY
 def auth(username, password):
@@ -108,32 +112,60 @@ def auth(username, password):
     return real_password[0] == password
 
 
-#=============================BLOGS-ENTRIES=============================#
 
-def gen_entry_id():
-    # use secrets module to generate a random 32-byte string
-    ID = secrets.token_hex(32)
-    # make sure the ID really is unique
-    # btw this will crash the app if there are enough users... but we'd need like 2^32 users sooo
-    while entry_exists(ID):
-        ID = secrets.token_hex(32)
-    return ID
+#=============================BLOGS-ENTRIES-MAIN=============================#
 
-# helper
-def entry_exists(entry_id):
+
+#----------ACCESSORS----------#
+
+
+# get all the entries associated with a certain blog
+def get_entries(blog_id):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     
-    matching_entry = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
-    if len(matching_entry) > 0:
-        db.commit()
-        db.close()
-        return True
+    entries = c.execute(f'SELECT entry_id FROM entries WHERE blog_id = "{blog_id}"').fetchall()
     
     db.commit()
     db.close()
-    return False
+    
+    # extract values from tuples so we can just return a 1d list
+    return clean_list(entries)
+
+
+# wrapper method
+def get_entry_name(entry_id):
+    return get_entry_field(entry_id, 'entry_name')
+
+# wrapper method
+def get_entry_blog(entry_id):
+    return get_entry_field(entry_id, 'blog_id')
+
+# wrapper method
+def get_entry_udate(entry_id):
+    return get_entry_field(entry_id, 'upload_date')
+
+# wrapper method
+def get_entry_edate(entry_id):
+    return get_entry_field(entry_id, 'edit_date')
+
+# wrapper method
+def get_entry_contents(entry_id):
+    return get_entry_field(entry_id, 'contents')
+
+# returns a list of every field associated with this entry_id (besides the id itself)
+def get_entry_all(entry_id):
+    data = []
+    data += [get_entry_field(entry_id, 'entry_name')]
+    data += [get_entry_field(entry_id, 'blog_id')]
+    data += [get_entry_field(entry_id, 'upload_date')]
+    data += [get_entry_field(entry_id, 'edit_date')]
+    data += [get_entry_field(entry_id, 'contents')]
+    return data
+
+#----------MUTATORS----------#
+
 
 # add a *NEW* entry to a blog, return ID
 def add_entry(entry_name, blog_id, contents):
@@ -150,6 +182,7 @@ def add_entry(entry_name, blog_id, contents):
     db.close()
     return entry_id
 
+
 def update_entry(entry_id, entry_name, contents):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -161,21 +194,58 @@ def update_entry(entry_id, entry_name, contents):
     db.commit()
     db.close()
 
-# get all the entries associated with a certain blog
-def get_entries(blog_id):
+
+#----------HELPERS----------#
+
+def gen_entry_id():
+    # use secrets module to generate a random 32-byte string
+    ID = secrets.token_hex(32)
+    # make sure the ID really is unique
+    # btw this will crash the app if there are enough users... but we'd need like 2^32 users sooo
+    while entry_exists(ID):
+        ID = secrets.token_hex(32)
+    return ID
+
+
+def get_entry_field(entry_id, field):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     
-    entries = c.execute(f"SELECT entry_name FROM entries WHERE blog_id = \"{blog_id}").fetchall()
-    print(entries)
+    data = c.execute(f'SELECT {field} FROM entries WHERE entry_id = "{entry_id}"').fetchone()
     
     db.commit()
     db.close()
+    return data[0]
+
+def entry_exists(entry_id):
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    
+    matching_entry = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
+    if len(matching_entry) > 0:
+        db.commit()
+        db.close()
+        return True
+    
+    db.commit()
+    db.close()
+    return False
 
 
-key = add_entry("test", "fakeblog", "hello these are the contents of the fake entry")
-update_entry(key, "fakeblog", "newww")
+
+#=============================GEN=HELPERS=============================#
+
+
+# turn a list of tuples (returned by .fetchall()) into a 1d list
+def clean_list(raw_output):
+    clean_output = [raw_output[i][0] for i in range(len(raw_output))]
+    return clean_output
+
+
+#=============================FILE=END=============================#
+
 
 db.commit() #save changes
 db.close()  #close database
