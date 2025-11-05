@@ -14,7 +14,7 @@ Users must register and log in to use the blog site to publish articles, journal
 
 ### Install Guides:
 - Go to the top of the GitHub repo and click on the green "Code" button
-- ```git@github.com:procrastinAFK/MWE-Wiki.git```
+```git@github.com:procrastinAFK/MWE-Wiki.git```
 - Click on "SSH" and copy the text that is returned
 - Go into your terminal and navigate to where you want this repo to be installed
 - Use this command: "git clone \<SSH link\>"
