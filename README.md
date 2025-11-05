@@ -18,7 +18,10 @@ Users must register and log in to use the blog site to publish articles, journal
 - or copy --> ```git@github.com:procrastinAFK/MWE-Wiki.git```
 - Go into your terminal and navigate to where you want this repo to be installed
 - Use this command: "git clone \<SSH link\>"
-- or copy --> ```git clone git@github.com:procrastinAFK/MWE-Wiki.git```
+- or copy -->
+```
+ git clone git@github.com:procrastinAFK/MWE-Wiki.git
+```
 - Enter your SSH password if necessary
 - You're done!
 
