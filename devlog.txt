@@ -53,5 +53,6 @@ mayaB -- 2025-11-2 11:17
 	Having some login/register trouble in __init__.py, debugging
 
 ashleyL -- 2025-11-4 6:48
-	Reviewed BigPro and Carrot's "Install Guide" and "Launch Code"
-	Updated our own README.md taking issues from other teams into account
+EXTERNAL README REVIEW: SUMMARY
+	Reviewed BigPro and Carrot's "Install Guide" and "Launch Code" issues
+	Updated our own README.md taking issues from other teams into account (added pip install -r requirements.txt, formatted things as code, etc)
