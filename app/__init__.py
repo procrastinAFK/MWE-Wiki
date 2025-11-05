@@ -5,6 +5,7 @@
 from flask import Flask, render_template, request, session, redirect
 import sqlite3
 import subprocess
+from data import *
 
 subprocess.run(["python", "data.py"])
 
@@ -24,14 +25,14 @@ def login():
             session['username'] = request.form['username']
             return redirect("/home")
 
-    elif session['username']:
+    elif 'username' in session:
         return redirect("/home")
 
     return render_template('login.html');
 
 @app.route("/home", methods=['GET','POST']) # will need to use post for password at the very least
-def authenticate():
-    return render_template('home.html')
+def home():
+    return render_template('home.html', username = session['username'])
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
