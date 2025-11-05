@@ -40,3 +40,19 @@ INSTALL GUIDE, LAUNCH CODES, RUNNING APP
 		Created login.html
 		Created home.html
 		Used minimal auth to "log in" (just provide a username...)
+
+mayaB -- 2025-10-31 10:50
+	Updated readme description 
+	Began working on static parts of HTML templates
+	Login/register progress in data.py
+
+mayaB -- 2025-11-2 11:17
+	Made doc guide of git branching that teammates can refer to
+	Debugged login/register/auth in data.py
+	Worked on static elements of HTML templates (titles, links between each)
+	Having some login/register trouble in __init__.py, debugging
+
+ashleyL -- 2025-11-4 6:48
+EXTERNAL README REVIEW: SUMMARY
+	Reviewed BigPro and Carrot's "Install Guide" and "Launch Code" issues
+	Updated our own README.md taking issues from other teams into account (added pip install -r requirements.txt, formatted things as code, etc)

@@ -14,16 +14,40 @@ Users must register and log in to use the blog site to publish articles, journal
 
 ### Install Guides:
 - Go to the top of the GitHub repo and click on the green "Code" button
-- Click on "SSH" and copy the text that is returned
+- Click on the "SSH" tab and copy the text that is returned
+- or copy
+```
+git@github.com:procrastinAFK/MWE-Wiki.git
+```
 - Go into your terminal and navigate to where you want this repo to be installed
-- Use this command: "git clone \<SSH link\>"
-- Enter your SSH password if necessary
+- Clone the app using
+```
+ git clone <SSH link>
+```
+- Enter your password if necessary
+- Navigate to the repository by typing 
+```
+cd MWE-Wiki
+```
+- Install the required modules using
+```
+pip install -r requirements.txt
+```
 - You're done!
 
 ### Launch Codes
 - Open your terminal and navigate to this repo on your machine
-- Go into the "app" repo
-- Activate your python virtual environment
-- Run this command: "python \_\_init\_\_.py"
-- Go to http://127.0.0.1:5000 on your preferred browser
+- Then cd into the "app" repo: 
+```
+cd app
+```
+- Run this command:
+```
+python __init__.py
+```
+- Go to
+```
+http://127.0.0.1:5000
+```
+on your preferred browser
 - Have fun on the website!
