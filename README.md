@@ -37,8 +37,9 @@ pip install -r requirements.txt
 
 ### Launch Codes
 - Open your terminal and navigate to this repo on your machine
-- Then cd into the "app" repo
+- Then cd into the "app" repo: 
  ```cd app```
-- Run this command: "python \_\_init\_\_.py"
+- Run this command:
+  ```python \_\_init\_\_.py```
 - Go to http://127.0.0.1:5000 on your preferred browser
 - Have fun on the website!
