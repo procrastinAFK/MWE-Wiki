@@ -40,6 +40,6 @@ pip install -r requirements.txt
 - Then cd into the "app" repo: 
  ```cd app```
 - Run this command:
-  ```python \_\_init\_\_.py```
+  ```python __init__.py```
 - Go to http://127.0.0.1:5000 on your preferred browser
 - Have fun on the website!
