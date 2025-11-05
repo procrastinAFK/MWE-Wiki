@@ -26,6 +26,10 @@ git@github.com:procrastinAFK/MWE-Wiki.git
  git clone git@github.com:procrastinAFK/MWE-Wiki.git
 ```
 - Enter your SSH password if necessary
+- Enter the repository by
+```
+cd MWE-Wiki
+```
 - Install the required modules
 ```
 pip install -r requirements.txt
