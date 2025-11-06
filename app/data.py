@@ -102,8 +102,10 @@ def get_blogs(username):
 def register_user(username, password):
 
     if user_exists(username):
-        # throw error here
-        return "bad"
+        raise ValueError("Username already exists")
+    
+    if password == "":
+        raise ValueError("You must enter a non-empty password")
     
     # hash password here?
     # retrieve date in yyyy-mm-dd format
@@ -128,8 +130,7 @@ def register_user(username, password):
 def change_username(old_username, new_username):
     
     if user_exists(new_username):
-        # throw error here
-        return "bad"
+        raise ValueError("Username already exists")
     
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -149,7 +150,10 @@ def change_username(old_username, new_username):
 def change_password(username, old_pass, new_pass):
     
     if not auth(username, old_pass):
-        return "bad"
+        raise ValueError("Incorrect old password")
+    
+    if new_pass == "":
+        raise ValueError("New password must be non-empty")
     
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -229,11 +233,10 @@ def auth(username, password):
     c = db.cursor()
 
     if not user_exists(username):
-        # throw some error here maybe?
-        print("user dne")
         db.commit()
         db.close()
-        return False
+        
+        raise ValueError("Username does not exist")
     
     # hash password here? (MUST MATCH other hash from register)
     passpointer = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
@@ -244,8 +247,10 @@ def auth(username, password):
     
     password = password.encode('utf-8')
     
-    print(real_pass + ', ' + str(hashlib.sha256(password).hexdigest()))
-    return real_pass == str(hashlib.sha256(password).hexdigest())
+    if real_pass != str(hashlib.sha256(password).hexdigest()):
+        raise ValueError("Incorrect password")
+    
+    return True
 
 
 

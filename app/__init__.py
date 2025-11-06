@@ -19,10 +19,13 @@ def login():
         return redirect("/home")
     
     if request.method == 'POST':
-        print(auth(request.form['username'], request.form['password']))
-        if auth(request.form['username'], request.form['password']):
-            session['username'] = request.form['username']
-            return redirect("/home")
+        try:
+            if auth(request.form['username'], request.form['password']):
+                session['username'] = request.form['username']
+                return redirect("/home")
+        
+        except ValueError as e:
+                return render_template('login.html', error=e)
 
     return render_template('login.html');
 
@@ -30,9 +33,13 @@ def login():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        register_user(request.form['username'], request.form['password'])
-        session['username'] = request.form['username']
-        return redirect("/home")
+        try:
+            register_user(request.form['username'], request.form['password'])
+            session['username'] = request.form['username']
+            return redirect("/home")
+        
+        except ValueError as e:
+            return render_template('register.html', error=e)
     
     return render_template('register.html')
     
@@ -56,13 +63,21 @@ def editpf():
     
     if request.method == 'POST':
         if 'username_form' in request.form:
-            print("form" + request.form['username'])
-            change_username(session['username'], request.form['username'])
-            session.clear()
-            session['username'] = request.form['username']
+            try:
+                print("form" + request.form['username'])
+                change_username(session['username'], request.form['username'])
+                session.clear()
+                session['username'] = request.form['username']
+            
+            except ValueError as e:
+                return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), error=e)
             
         if 'password_form' in request.form:
-            change_password(session['username'], request.form['old_pass'], request.form['new_pass'])
+            try:
+                change_password(session['username'], request.form['old_pass'], request.form['new_pass'])
+            
+            except ValueError as e:
+                return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), error=e)
             
         if 'bio_form' in request.form:
             change_bio(session['username'], request.form['bio'])
