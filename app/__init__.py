@@ -45,6 +45,26 @@ def home():
     return render_template('home.html')
 
 
+@app.route("/editpf", methods=['GET', 'POST'])
+def editpf():
+    if request.method == 'POST':
+        print("fcjaoidsfhaoihdsf")
+        if 'username_form' in request.form:
+            print("form" + request.form['username'])
+            change_username(session['username'], request.form['username'])
+            session.clear()
+            session['username'] = request.form['username']
+            
+        if 'password_form' in request.form:
+            change_password(session['username'], request.form['old_pass'], request.form['new_pass'])
+            
+        if 'bio_form' in request.form:
+            change_bio(session['username'], request.form['bio'])
+    
+    print("real" + session['username'])
+    return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']))
+
+
 if (__name__ == "__main__"):
     app.debug = True; # temporary!
     app.run()

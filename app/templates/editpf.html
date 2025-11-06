@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<!-- MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
+		 p00
+		 Softdev
+     -->
+
+<html>
+
+  <head>
+    <title> MWE--Edit Profile </title>
+  </head>
+
+  <body>
+		
+		Hey there, {{ username }}! Edit your profile! :)
+		
+		<br>
+		
+		Change username:
+		<form action="/editpf" name="username_form" method="POST">
+            <input type="text" value={{ username }} name="username">
+            <input type="submit" name="sub1">
+        </form>
+        
+        <br>
+        
+        Change password:
+		<form action="/editpf" name="password_form" method="POST">
+            <input type="text" placeholder="old password" name="old_pass">
+            <input type="text" placeholder="new password" name="new_pass">
+            <input type="submit" name="sub1">
+        </form>
+        
+        Change bio:
+		<form action="/editpf" name="bio_form" method="POST">
+            <input type="text" value={{ bio }} name="bio">
+            <input type="submit" name="sub1">
+        </form>
+        
+  </body>
+
+</html>
+
