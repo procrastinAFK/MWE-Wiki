@@ -56,3 +56,6 @@ ashleyL -- 2025-11-4 6:48
 EXTERNAL README REVIEW: SUMMARY
 	Reviewed BigPro and Carrot's "Install Guide" and "Launch Code" issues
 	Updated our own README.md taking issues from other teams into account (added pip install -r requirements.txt, formatted things as code, etc)
+
+evanK -- 2025-11-5 10:45
+	Updated hash function to use sha256 from hashlib to fix problem of inconsistent hashes
