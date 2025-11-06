@@ -11,16 +11,14 @@
     <title> MWE--EditPage </title>
     Hey there, {{ username }}! Edit your page!<br><br>
   </head>
-  
-  <button onclick="document.location='viewblog.html'">Blogs</button> <br><br>
+  <button onclick= "document.location='viewblog.html'">Blogs</button><br><br>
 
 	<body>
     <form action="/action_page.php">
-      <label for="docname">Doc name:</label>
-      <input type="text" id="docname" name="docname"><br><br>
-      <label for="input">input:</label>
-      <input type="text" id="input" name="input"><br><br>
+      <label for="Input">input:</label>
+      <input type="text" id="input" value={{blog_data}} name="input"><br><br>
       <input type="submit" value="Submit">
     </form>
+
 	</body>
 </html>
