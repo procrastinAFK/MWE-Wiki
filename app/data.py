@@ -136,7 +136,7 @@ def change_username(old_username, new_username):
     c = db.cursor()
     
     # update stuff associated with old username
-    c.execute(f'UPDATE blogs SET author_username = "{new_username}" WHERE username = "{old_username}"')
+    c.execute(f'UPDATE blogs SET author_username = "{new_username}" WHERE author_username = "{old_username}"')
     c.execute(f'UPDATE userdata SET username = "{new_username}" WHERE username = "{old_username}"')
     
     db.commit()
@@ -157,7 +157,7 @@ def change_password(username, old_pass, new_pass):
     
     old_pass = old_pass.encode('utf-8')
     old_pass = str(hashlib.sha256(old_pass).hexdigest())
-    new_pass = new_pass.endcode('utf-8')
+    new_pass = new_pass.encode('utf-8')
     new_pass = str(hashlib.sha256(new_pass).hexdigest())
     
     c.execute(f'UPDATE userdata SET password = "{new_pass}" WHERE username = "{username}"')

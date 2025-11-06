@@ -15,27 +15,35 @@
 		
 		Hey there, {{ username }}! Edit your profile! :)
 		
-		<br>
+		<br><br>
 		
 		Change username:
-		<form action="/editpf" name="username_form" method="POST">
-            <input type="text" value={{ username }} name="username">
-            <input type="submit" name="sub1">
+		<form action="/editpf" method="POST">
+            <input type="text" value="{{ username }}" name="username">
+            <input type="submit" name="username_form">
         </form>
         
         <br>
         
         Change password:
-		<form action="/editpf" name="password_form" method="POST">
+		<form action="/editpf" method="POST">
             <input type="text" placeholder="old password" name="old_pass">
             <input type="text" placeholder="new password" name="new_pass">
-            <input type="submit" name="sub1">
+            <input type="submit" name="password_form">
         </form>
         
+        <br>
+        
         Change bio:
-		<form action="/editpf" name="bio_form" method="POST">
-            <input type="text" value={{ bio }} name="bio">
-            <input type="submit" name="sub1">
+		<form action="/editpf" method="POST">
+            <input type="text" value="{{ bio }}" name="bio">
+            <input type="submit" name="bio_form">
+        </form>
+        
+        <br>
+        
+        <form>
+            <input type="submit" formmethod="post" name="logout" value="Logout">
         </form>
         
   </body>

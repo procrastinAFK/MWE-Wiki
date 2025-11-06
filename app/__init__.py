@@ -15,14 +15,14 @@ app.secret_key = 'asdhajskjbweifnoihgis'
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    if 'username' in session:
+        return redirect("/home")
+    
     if request.method == 'POST':
         print(auth(request.form['username'], request.form['password']))
         if auth(request.form['username'], request.form['password']):
             session['username'] = request.form['username']
             return redirect("/home")
-
-    elif 'username' in session:
-        return redirect("/home")
 
     return render_template('login.html');
 
@@ -31,13 +31,17 @@ def login():
 def register():
     if request.method == 'POST':
         register_user(request.form['username'], request.form['password'])
-        return redirect("/")
-    else:
-        return render_template('register.html')
+        session['username'] = request.form['username']
+        return redirect("/home")
+    
+    return render_template('register.html')
     
     
 @app.route("/home", methods=['GET','POST'])
 def home():
+    if not 'username' in session:
+        return redirect("/")
+    
     if 'logout' in request.form:
         session.clear()
         return redirect('/')
@@ -47,8 +51,10 @@ def home():
 
 @app.route("/editpf", methods=['GET', 'POST'])
 def editpf():
+    if not 'username' in session:
+        return redirect("/")
+    
     if request.method == 'POST':
-        print("fcjaoidsfhaoihdsf")
         if 'username_form' in request.form:
             print("form" + request.form['username'])
             change_username(session['username'], request.form['username'])
@@ -60,8 +66,11 @@ def editpf():
             
         if 'bio_form' in request.form:
             change_bio(session['username'], request.form['bio'])
+            
+        if 'logout' in request.form:
+            session.clear()
+            return redirect('/')
     
-    print("real" + session['username'])
     return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']))
 
 
