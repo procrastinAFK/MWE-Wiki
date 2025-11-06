@@ -259,6 +259,7 @@ def auth(username, password):
 def get_entries(blog_id):
     return get_field_list('entries', 'blog_id', blog_id, 'entry_id')
 
+
 # get all blogs
 def get_blogs():
 
@@ -272,6 +273,14 @@ def get_blogs():
     db.close()
 
     return clean_list(data)
+
+
+def get_blog_name(blog_id):
+    return get_field("blogs", "blog_id", blog_id, blog_name)
+
+
+def get_blog_author(blog_id):
+    return get_field("blogs", "blog_id", blog_id, author_username)
 
 
 #----------BLOG-MUTATORS----------#
