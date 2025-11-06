@@ -5,6 +5,7 @@
 import sqlite3   #enable control of an sqlite database
 import secrets  # used to generate ids
 from datetime import datetime # for user signup date
+import hashlib   #for consistent hashes
 
 
 #=============================MAKE=TABLES=============================#
@@ -112,6 +113,9 @@ def register_user(username, password):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     
+    password = password.encode('utf-8')
+    password = str(hashlib.sha256(password).hexdigest())
+    
     c.execute(f'INSERT INTO userdata VALUES ("{username}", "{password}", "{date}", NULL, NULL)')
     
     db.commit()
@@ -150,6 +154,11 @@ def change_password(username, old_pass, new_pass):
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
+    
+    old_pass = old_pass.encode('utf-8')
+    old_pass = str(hashlib.sha256(old_pass).hexdigest())
+    new_pass = new_pass.endcode('utf-8')
+    new_pass = str(hashlib.sha256(new_pass).hexdigest())
     
     c.execute(f'UPDATE userdata SET password = "{new_pass}" WHERE username = "{username}"')
     
@@ -227,13 +236,16 @@ def auth(username, password):
         return False
     
     # hash password here? (MUST MATCH other hash from register)
-    real_pass = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
-    real_password = real_pass.fetchone()
+    passpointer = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
+    real_pass = passpointer.fetchone()[0]
     
     db.commit()
     db.close()
     
-    return real_password[0] == password
+    password = password.encode('utf-8')
+    
+    print(real_pass + ', ' + str(hashlib.sha256(password).hexdigest()))
+    return real_pass == str(hashlib.sha256(password).hexdigest())
 
 
 
