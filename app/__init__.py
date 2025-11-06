@@ -43,7 +43,12 @@ def home():
         session.clear()
         return redirect('/')
 
-    return render_template('home.html')
+    username = session['username']
+
+    blog_keys = all_blogs()
+    blog_info = [[get_blog_name(all_blogs[i]), get_blog_author(all_blogs[i])] for i in range(len(blog_keys))]
+
+    return render_template('home.html', username, blogs=blog_info)
 
 
 if (__name__ == "__main__"):
