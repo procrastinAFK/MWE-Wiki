@@ -102,9 +102,11 @@ def get_blogs(username):
 def register_user(username, password):
 
     if user_exists(username):
-        # throw error here
-        return "bad"
-
+        raise ValueError("Username already exists")
+    
+    if password == "":
+        raise ValueError("You must enter a non-empty password")
+    
     # hash password here?
     # retrieve date in yyyy-mm-dd format
     date = datetime.today().strftime('%Y-%m-%d')
@@ -128,15 +130,14 @@ def register_user(username, password):
 def change_username(old_username, new_username):
 
     if user_exists(new_username):
-        # throw error here
-        return "bad"
-
+        raise ValueError("Username already exists")
+    
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
     # update stuff associated with old username
-    c.execute(f'UPDATE blogs SET author_username = "{new_username}" WHERE username = "{old_username}"')
+    c.execute(f'UPDATE blogs SET author_username = "{new_username}" WHERE author_username = "{old_username}"')
     c.execute(f'UPDATE userdata SET username = "{new_username}" WHERE username = "{old_username}"')
 
     db.commit()
@@ -149,15 +150,18 @@ def change_username(old_username, new_username):
 def change_password(username, old_pass, new_pass):
 
     if not auth(username, old_pass):
-        return "bad"
-
+        raise ValueError("Incorrect old password")
+    
+    if new_pass == "":
+        raise ValueError("New password must be non-empty")
+    
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
     old_pass = old_pass.encode('utf-8')
     old_pass = str(hashlib.sha256(old_pass).hexdigest())
-    new_pass = new_pass.endcode('utf-8')
+    new_pass = new_pass.encode('utf-8')
     new_pass = str(hashlib.sha256(new_pass).hexdigest())
 
     c.execute(f'UPDATE userdata SET password = "{new_pass}" WHERE username = "{username}"')
@@ -229,12 +233,11 @@ def auth(username, password):
     c = db.cursor()
 
     if not user_exists(username):
-        # throw some error here maybe?
-        print("user dne")
         db.commit()
         db.close()
-        return False
-
+        
+        raise ValueError("Username does not exist")
+    
     # hash password here? (MUST MATCH other hash from register)
     passpointer = c.execute(f'SELECT password FROM userdata WHERE username = "{username}"')
     real_pass = passpointer.fetchone()[0]
@@ -243,9 +246,11 @@ def auth(username, password):
     db.close()
 
     password = password.encode('utf-8')
-
-    print(real_pass + ', ' + str(hashlib.sha256(password).hexdigest()))
-    return real_pass == str(hashlib.sha256(password).hexdigest())
+    
+    if real_pass != str(hashlib.sha256(password).hexdigest()):
+        raise ValueError("Incorrect password")
+    
+    return True
 
 
 
@@ -488,3 +493,4 @@ def clean_list(raw_output):
 create_user_data()
 create_blog_data()
 create_entry_data()
+
