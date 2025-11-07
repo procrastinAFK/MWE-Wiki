@@ -3,25 +3,31 @@
 <html>
 
   <head>
-    <title> {{ title }} </title>
+    <title> {% data.get_blog_name({{ blogid }}) %} by {% data.get_blog_author({{ blogid }}) %} </title>
   </head>
 
   <body>
         
-        {% for entry in entries %}
+        {% for entryid in data.get_entries({{ blogid }}) %}
         
+            <h1> {% data.get_entry_name(entryid) %} </h1>
+            
+            <br>
+            
+            <p> {% data.get_entry_contents(entryid) %} </p>
+            
+            <br>
+            
+            {% if "{{ username }}" == data.get_blog_author(blogid) %}
+            
+                <form>
+                    <input type="submit" formmethod="post" name="{{ entryid }}" value="Edit Entry">
+                </form>
+            
+            {% endif %}
+            
         {% endfor %}
             
-        <br>
-        
-        {% if "{{ username }}" == "{{ author }}" %}
-        
-        <form>
-            <input type="submit" formmethod="post" name="editblog" value="Edit Blog">
-        </form>
-        
-        {% endif %}
-        
         <br>
         
         <form>
