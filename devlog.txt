@@ -59,3 +59,7 @@ EXTERNAL README REVIEW: SUMMARY
 
 evanK -- 2025-11-5 10:45
 	Updated hash function to use sha256 from hashlib to fix problem of inconsistent hashes
+
+
+ashleyL -- 2025-11-6 11:44
+	Profile displays username
