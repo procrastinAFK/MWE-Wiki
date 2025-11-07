@@ -4,9 +4,7 @@
 
 from flask import Flask, render_template, request, session, redirect
 import sqlite3
-import subprocess
-
-subprocess.run(["python", "data.py"])
+from data import *
 
 app = Flask(__name__)
 
@@ -24,7 +22,7 @@ def login():
             session['username'] = request.form['username']
             return redirect("/home")
 
-    elif session['username']:
+    elif 'username' in session:
         return redirect("/home")
 
     return render_template('login.html');
@@ -40,6 +38,17 @@ def register():
         return redirect("/")
     else:
         return render_template('register.html')
+
+@app.route("/viewblog", methods=['GET', 'POST'])
+def viewblog():
+    username = session["username"]
+    return render_template("viewblog.html", username = username)
+
+@app.route("/profile", methods=['GET', 'POST'])
+def profile():
+    username = session["username"]
+    return render_template("profile.html", username = username)
+
 
 if (__name__ == "__main__"):
     app.debug = True; # temporary!
