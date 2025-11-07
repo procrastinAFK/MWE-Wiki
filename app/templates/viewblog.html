@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-Profile
-</head>
+
+  <head>
+    <title> {{ title }} </title>
+  </head>
+
+  <body>
+        
+        {% for entry in entries %}
+        
+        {% endfor %}
+            
+        <br>
+        
+        {% if "{{ username }}" == "{{ author }}" %}
+        
+        <form>
+            <input type="submit" formmethod="post" name="editblog" value="Edit Blog">
+        </form>
+        
+        {% endif %}
+        
+        <br>
+        
+        <form>
+            <input type="submit" formmethod="post" name="logout" value="Logout">
+        </form>
+        
+  </body>
+
+</html>

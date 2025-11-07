@@ -2,7 +2,7 @@
 # p00
 # Softdev
 
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
 from data import *
 
@@ -87,6 +87,22 @@ def editpf():
             return redirect('/')
     
     return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']))
+
+
+@app.route("/viewblog", methods=['GET', 'POST'])
+def viewblog():
+    if not 'username' in session:
+        return redirect("/")
+    
+    if request.method == 'POST':
+        if 'editblog' in request.form:
+            return redirect(url_for('editntry', blogid=request.args.get('blogid'))
+        
+        if 'logout' in request.form:
+            session.clear()
+            return redirect('/')
+                            
+    return render_template('viewblog.html')
 
 
 if (__name__ == "__main__"):
