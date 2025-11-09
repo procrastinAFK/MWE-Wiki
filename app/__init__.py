@@ -69,6 +69,67 @@ def home():
     return render_template('home.html', username=username, blogs=blog_info)
 
 
+@app.route("/viewblog", methods=['GET', 'POST'])
+def viewblog():
+    
+    if not 'username' in session:
+        return redirect("/")
+        
+    username = session["username"]
+    blogid = request.args['blogid']
+    blogname = get_blog_name(blogid)
+    author_username = get_blog_author(blogid)
+    entries = get_entries(blogid)
+
+    if request.method == 'POST':
+        for entryid in entries:
+            if f'{entryid}' in request.form:
+                return redirect(url_for('editntry', entryid=f'{entryid}'))
+
+    if 'logout' in request.form:
+        session.clear()
+        return redirect('/')
+    
+    data = [[entries[i], get_entry_name(entries[i]), get_entry_author(entries[i])] for i in range(len(entries))]
+            
+    return render_template('viewblog.html', username=username, author=author_username, name=blogname, blogid=blogid, entries=data)
+
+
+@app.route("/newblog", methods=['GET', 'POST'])
+def newblog():
+    
+    if not 'username' in session:
+        return redirect("/")
+
+    if 'logout' in request.form:
+        session.clear()
+        return redirect('/')
+    
+    username = session["username"]
+    
+    if 'newblog_title' in request.form:
+        ID = add_blog(request.form['newblog_title'], username)
+        return redirect(url_for('viewblog', blogid=ID))
+
+    return render_template('newblog.html', username=username)
+
+
+@app.route("/profile", methods=['GET', 'POST'])
+def profile():
+    
+    if not 'username' in session:
+        return redirect("/")
+    
+    if 'logout' in request.form:
+            session.clear()
+            return redirect('/')
+    
+    username = session["username"]
+    bio = get_bio(username)
+            
+    return render_template("profile.html", username = username, bio=bio)
+    
+
 @app.route("/editpf", methods=['GET', 'POST'])
 def editpf():
     if not 'username' in session:
@@ -100,43 +161,6 @@ def editpf():
             return redirect('/')
 
     return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']))
-
-
-@app.route("/viewblog", methods=['GET', 'POST'])
-def viewblog():
-    if not 'username' in session:
-        return redirect("/")
-        
-    username = session["username"]
-
-    entries = get_entries(blogid)
-
-    if request.method == 'POST':
-        for entryid in entries:
-            if f'{entryid}' in request.form:
-                return redirect(url_for('editntry', entryid=f'{entryid}'))
-
-        if 'logout' in request.form:
-            session.clear()
-            return redirect('/')
-
-    return render_template('viewblog.html', blogid=blogid, username=username)
-
-
-@app.route("/profile", methods=['GET', 'POST'])
-def profile():
-    
-    if not 'username' in session:
-        return redirect("/")
-    
-    if 'logout' in request.form:
-            session.clear()
-            return redirect('/')
-    
-    username = session["username"]
-    bio = get_bio(username)
-            
-    return render_template("profile.html", username = username, bio=bio)
 
 
 if (__name__ == "__main__"):
