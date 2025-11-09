@@ -1,31 +1,41 @@
+<!DOCTYPE html>
+
+<!-- MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
+		 p00
+		 Softdev
+     -->
+
 <html>
 
   <head>
-    <title> REGISTER PAGE </title>
+    <title> MWE--Register </title>
   </head>
 
   <body>
+	
     <h1>
       MWE
     </h1>
-    <h2>
-        Team Member Names
-    </h2>
-
+    <p>
+        By: Maya Berchin, Ashley Li, Evan Khosh, Robert Chen
+    </p>
 
     <h3>
-      Enter your username and password below to proceed.
+      Please enter a unique username and a password.
     </h3>
     
     <form action="/register", method="POST">
-      <input type="text" name="username">
-      <input type="text" name="password">
+      <input type="text" placeholder="username" name="username">
+      <input type="text" placeholder="password" name="password">
       <input type="submit" name="sub1">
     </form>
-    
-    <br>
+		
+		<br>
     
     {{ error }}
+		
+		<p> Already have an account? </p>
+		<a href="/">Log In</a>
     
   </body>
 
