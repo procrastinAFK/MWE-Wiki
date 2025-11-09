@@ -15,15 +15,7 @@ app.secret_key = 'asdhajskjbweifnoihgis'
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        #print("maybe good things")
-        print(auth(request.form['username'], request.form['password']))
-        if auth(request.form['username'], request.form['password']):
-            #print("good things")
-            session['username'] = request.form['username']
-            return redirect("/home")
-
-    elif 'username' in session:
+    if 'username' in session:
         return redirect("/home")
 
     if request.method == 'POST':
@@ -66,7 +58,7 @@ def home():
     if 'profile' in request.form:
         return render_template('profile.html', username=username, blogs=get_blogs(username))
 
-    blog_keys = all_blogs()
+    blog_keys = all_blogs()[1:] # get rid of 'None'
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
@@ -133,7 +125,16 @@ def viewblog():
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
+    
+    if not 'username' in session:
+        return redirect("/")
+    
     username = session["username"]
+    
+    if 'logout' in request.form:
+            session.clear()
+            return redirect('/')
+            
     return render_template("profile.html", username = username)
 
 
