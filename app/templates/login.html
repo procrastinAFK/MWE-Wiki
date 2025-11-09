@@ -16,23 +16,25 @@
 
   <body>
 
-      <div class="welcome-sign">WELCOME TO THE MWE BLOG SITE</div>
+      <div class="title-sign">THE MWE BLOG SITE</div>
 
 		<h3>
-      Enter your username below to proceed.
+      <div class="instruction-sign">Please log in to proceed.</div>
     </h3>
-    <form action="/" method="POST">
-      <input type="text" placeholder="username" name="username">
-      <input type="text" placeholder="password" name="password">
-      <input type="submit" name="submit">
-    </form>
-
+    <div class="user_pass">
+      <form action="/" method="POST">
+        <input type="text" placeholder="username" name="username">
+        <input type="text" placeholder="password" name="password">
+        <input type="submit" name="submit">
+      </form>
+    </div>
     {{ error }}
 
     <br>
-<button onclick= "document.location='register.html'">Register</button><br><br>
-    <a href="/register">Register</a>
-
+    <div class="register_button">
+      <button onclick= "document.location='register.html'">Register</button>
+    </div>
+      <a href="/register">Register</a>
   </body>
 
 </html>

@@ -1,7 +1,42 @@
+
 body {
-    background-color: lightblue;
+    background-color: #ede0d4
 }
-.welcome-sign {
+.title-sign {
+  font-family: "Malgun Gothic";
   TEXT-ALIGN: CENTER;
   FONT-SIZE: 50px;
+  COLOR: #582f0e;
+}
+
+.instruction-sign {
+  font-family: "Courier";
+  TEXT-ALIGN: CENTER;
+  FONT-SIZE: 20px;
+  COLOR: #582f0e;
+}
+
+.user_pass {
+  input[type=text] {
+  background-color: #f8f9fa;
+  border: 2px solid #582f0e;
+  border-radius: 8px;
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  }
+  input[type=submit] {
+    background-color: #f8f9fa;
+    border: 2px solid #582f0e;
+    border-radius: 8px;
+    width: 20%;
+    padding: 10px;
+    margin: 18px 0;
+    box-sizing: border-box;
+  }
+}
+
+.register_button {
+
 }
