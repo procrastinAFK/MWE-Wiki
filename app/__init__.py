@@ -15,6 +15,7 @@ app.secret_key = 'asdhajskjbweifnoihgis'
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    style = url_for('static', filename='style.css')
     if request.method == 'POST':
         #print("maybe good things")
         print(auth(request.form['username'], request.form['password']))
@@ -33,9 +34,11 @@ def login():
                 return redirect("/home")
 
         except ValueError as e:
-                return render_template('login.html', error=e)
+                return render_template('login.html', url=style, error=e)
 
-    return render_template('login.html');
+
+
+    return render_template('login.html', url=style);
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -127,12 +130,6 @@ def viewblog():
             return redirect('/')
 
     return render_template('viewblog.html', blogid=blogid)
-
-
-@app.route("/viewblog", methods=['GET', 'POST'])
-def viewblog():
-    username = session["username"]
-    return render_template("viewblog.html", username = username)
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():

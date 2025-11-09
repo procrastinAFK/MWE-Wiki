@@ -8,13 +8,16 @@
 <html>
 
   <head>
+    <link rel="stylesheet"
+          type="text/css"
+          href={{url}}>
     <title> MWE--Login </title>
   </head>
 
   <body>
-		
-		Login required!
-		
+
+      <div class="welcome-sign">WELCOME TO THE MWE BLOG SITE</div>
+
 		<h3>
       Enter your username below to proceed.
     </h3>
@@ -23,13 +26,13 @@
       <input type="text" placeholder="password" name="password">
       <input type="submit" name="submit">
     </form>
-    
+
     {{ error }}
-    
+
     <br>
-    
+<button onclick= "document.location='register.html'">Register</button><br><br>
     <a href="/register">Register</a>
-		
+
   </body>
 
 </html>
