@@ -14,10 +14,16 @@
   <body>
 
 		Hey there, {{ username }}! Welcome to your homepage!
+		
+		<form>
+      <input type="submit" formmethod="post" name="profile" value="Profile">
+    </form>
 
 		<form>
       <input type="submit" formmethod="post" name="logout" value="Logout">
     </form>
+		
+		<h1> Blogs </h1>
 
     {% for blog in blogs %}
 			<p> {{ blog[1] }} by {{ blog[2] }} </p>

@@ -266,7 +266,7 @@ def get_entries(blog_id):
 
 
 # get all blogs
-def get_blogs():
+def all_blogs():
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -482,7 +482,10 @@ def clean_list(raw_output):
     clean_output = []
     for lst in raw_output:
         for item in lst:
-            clean_output += [item]
+            if str(item) == 'None':
+                clean_output += ['None']
+            else:
+                clean_output += [item]
 
     return clean_output
 

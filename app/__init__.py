@@ -55,8 +55,11 @@ def home():
         return redirect('/')
 
     username = session['username']
+    
+    if 'profile' in request.form:
+        return render_template('profile.html', username=username, blogs=get_blogs(username))
 
-    blog_keys = get_blogs()
+    blog_keys = all_blogs()
     
     for ID in blog_keys:
         if f'{ID}' in request.form:
