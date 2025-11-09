@@ -13,14 +13,17 @@
 
   <body>
 
-		Hey there, {{ username }}! Functional blog site coming soon :)
+		Hey there, {{ username }}! Welcome to your homepage!
 
 		<form>
       <input type="submit" formmethod="post" name="logout" value="Logout">
     </form>
 
     {% for blog in blogs %}
-      {{ blog[0] }}, {{ blog[1] }}
+			<p> {{ blog[1] }} by {{ blog[2] }} </p>
+			<form>
+				<input type="submit" formmethod="post" name="{{ blog[0] }}" value="View blog">
+			</form> 
     {% endfor %}
 
   </body>
