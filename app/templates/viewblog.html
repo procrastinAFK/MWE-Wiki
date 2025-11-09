@@ -7,33 +7,38 @@
   </head>
 
   <body>
-        
+
         {% for entryid in data.get_entries({{ blogid }}) %}
-        
+
             <h1> {% data.get_entry_name(entryid) %} </h1>
-            
+
             <br>
-            
+
             <p> {% data.get_entry_contents(entryid) %} </p>
-            
+
             <br>
-            
+
             {% if "{{ username }}" == data.get_blog_author(blogid) %}
-            
+
                 <form>
                     <input type="submit" formmethod="post" name="{{ entryid }}" value="Edit Entry">
                 </form>
-            
+
             {% endif %}
-            
+
         {% endfor %}
-            
+
+        <button onclick= "document.location='home.html'">Home</button>
+        <button onclick= "document.location='profile.html'">Profile</button>
+        <button onclick= "document.location='newblog.html'">Create Blogs</button>
+        <button onclick= "document.location='editntry.html'">Edit Blog</button><br><br>
+
         <br>
-        
+
         <form>
             <input type="submit" formmethod="post" name="logout" value="Logout">
         </form>
-        
+
   </body>
 
 </html>

@@ -25,7 +25,7 @@ git@github.com:procrastinAFK/MWE-Wiki.git
  git clone <SSH link>
 ```
 - Enter your password if necessary
-- Navigate to the repository by typing 
+- Navigate to the repository by typing
 ```
 cd MWE-Wiki
 ```
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ### Launch Codes
 - Open your terminal and navigate to this repo on your machine
-- Then cd into the "app" repo: 
+- Then cd into the "app" repo:
 ```
 cd app
 ```
