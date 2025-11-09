@@ -43,6 +43,7 @@ def login():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    style = url_for('static', filename='style.css')
     if request.method == 'POST':
         try:
             register_user(request.form['username'], request.form['password'])
@@ -50,9 +51,9 @@ def register():
             return redirect("/home")
 
         except ValueError as e:
-            return render_template('register.html', error=e)
+            return render_template('register.html', url=style, error=e)
 
-    return render_template('register.html')
+    return render_template('register.html', url=style)
 
 
 @app.route("/home", methods=['GET','POST'])

@@ -1,13 +1,16 @@
 <html>
 
   <head>
+    <link rel="stylesheet"
+          type="text/css"
+          href={{url}}>
     <title> REGISTER PAGE </title>
   </head>
 
   <body>
-    <h1>
-      MWE
-    </h1>
+    <body>
+      <div class="title-sign">WELCOME TO THE MWE BLOG SITE!</div>
+    </body>
     <h2>
         Team Member Names
     </h2>
@@ -16,17 +19,18 @@
     <h3>
       Enter your username and password below to proceed.
     </h3>
-    
-    <form action="/register", method="POST">
-      <input type="text" name="username">
-      <input type="text" name="password">
-      <input type="submit" name="sub1">
-    </form>
-    
+    <div class="user_pass">
+      <form action="/register", method="POST">
+        <input type="text" name="username">
+        <input type="text" name="password">
+        <input type="submit" name="sub1">
+      </form>
+    </div>
+
     <br>
-    
+
     {{ error }}
-    
+
   </body>
 
 </html>
