@@ -24,17 +24,18 @@
     <div class="user_pass">
       <form action="/" method="POST">
         <input type="text" placeholder="username" name="username">
-        <input type="text" placeholder="password" name="password">
-        <input type="submit" name="submit">
+        <br>  <input type="text" placeholder="password" name="password">
+        <br>  <input type="submit" name="submit">
       </form>
     </div>
     {{ error }}
 
-    <br>
-    <div class="register_button">
-      <button onclick= "document.location='register.html'">Register</button>
-    </div>
-      <a href="/register">Register</a>
+    <h3>
+    <div class="reg-sign">Don't have an account yet?</div>
+    </h3>
+
+    <button class="reg-butt" onclick= "document.location='/register'">Register</button>
+
   </body>
 
 </html>
