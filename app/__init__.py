@@ -70,7 +70,7 @@ def home():
     if 'profile' in request.form:
         return render_template('profile.html', username=username, blogs=get_blogs(username))
 
-    blog_keys = all_blogs()
+    blog_keys = all_blogs()[1:] # get rid of 'None'
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
@@ -119,6 +119,8 @@ def viewblog():
     if not 'username' in session:
         return redirect("/")
 
+    username = session["username"]
+
     entries = get_entries(blogid)
 
     if request.method == 'POST':
@@ -130,12 +132,22 @@ def viewblog():
             session.clear()
             return redirect('/')
 
-    return render_template('viewblog.html', blogid=blogid)
+    return render_template('viewblog.html', blogid=blogid, username=username)
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
+
+    if not 'username' in session:
+        return redirect("/")
+
+    if 'logout' in request.form:
+            session.clear()
+            return redirect('/')
+
     username = session["username"]
-    return render_template("profile.html", username = username)
+    bio = get_bio(username)
+
+    return render_template("profile.html", username = username, bio=bio)
 
 
 if (__name__ == "__main__"):

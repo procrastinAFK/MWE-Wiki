@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 
 <html>
-<button onclick= "document.location='home.html'">Home</button>
-<button onclick= "document.location='editpf.html'">Edit Profile</button>
-<button onclick= "document.location='viewblog.html'">View Blogs</button>
-<button onclick= "document.location='newblog.html'">Create Blog</button>
-<button onclick= "document.location='login.html'">Logout</button><br><br>
-<h1>
-  Welcome {{ username }} !!!
-</h1>
-<h2>
-  Blogs Created:
-</h2>
-<p>
-  {{ blogs }}
-</p>
+	<head>
+		<title>Profile</title>
+	</head>
+	
+	<body>
+	
+		<button onclick= "document.location='/'">Home</button>
+		<button onclick= "document.location='/newblog'">New Blog</button>
+		<button onclick= "document.location='/editpf'">Edit Profile</button>
+		<form>
+					<input type="submit" formmethod="post" name="logout" value="Logout">
+		</form>
+		<br>
+		<h1>
+			Welcome {{ username }}!!!
+		</h1>
+		<p> About me: </p>
+		{{ bio }}
+		<br>
+		<h2>
+			Blogs Created:
+		</h2>
+		<p>
+			{{ blogs }}
+		</p>
+		
+	</body>
+
+</html>

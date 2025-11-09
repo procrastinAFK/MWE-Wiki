@@ -14,7 +14,11 @@
   <body>
 
 		Hey there, {{ username }}! Edit your profile! :)
-		<button onclick= "document.location='profile.html'">Profile</button><br><br>
+		<button onclick= "document.location='/profile'">Profile</button><br><br>
+		<br>
+		
+		{{ error }}
+
 		<br><br>
 
 		Change username:
@@ -39,10 +43,6 @@
             <input type="text" value="{{ bio }}" name="bio">
             <input type="submit" name="bio_form">
         </form>
-
-        {{ error }}
-
-        <br>
 
         <form>
             <input type="submit" formmethod="post" name="logout" value="Logout">

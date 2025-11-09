@@ -91,7 +91,7 @@ def get_bio(username):
 def get_blogs(username):
     # blog ids are stored as text; split the string (delimiter = space)
     # cut the first item, which is 'None'
-    return get_field('userdata', 'username', username, 'blog_ids').split(' ')[1:]
+    return get_field('userdata', 'username', username, 'blog_ids').split(' ')
 
 
 #----------USERDATA-MUTATORS----------#
@@ -442,7 +442,10 @@ def gen_id():
 
 # used for a bunch of accessor methods; used when only 1 item should be returned
 def get_field(table, ID_fieldname, ID, field):
-    return get_field_list(table, ID_fieldname, ID, field)[0]
+    lst = get_field_list(table, ID_fieldname, ID, field)
+    if (len(lst) == 0):
+        return 'None'
+    return lst[0]
 
 
 # wrapper method
@@ -480,11 +483,10 @@ def get_all_fields(table, ID_fieldname, ID):
 def clean_list(raw_output):
 
     clean_output = []
+    
     for lst in raw_output:
         for item in lst:
-            if str(item) == 'None':
-                clean_output += ['None']
-            else:
+            if str(item) != 'None':
                 clean_output += [item]
 
     return clean_output

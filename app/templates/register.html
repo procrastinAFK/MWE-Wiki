@@ -1,35 +1,45 @@
+<!DOCTYPE html>
+
+<!-- MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
+		 p00
+		 Softdev
+     -->
+
 <html>
 
   <head>
     <link rel="stylesheet"
           type="text/css"
           href={{url}}>
-    <title> REGISTER PAGE </title>
+    <title> MWE--Register </title>
   </head>
 
   <body>
-    <body>
-      <div class="title-sign">WELCOME TO THE MWE BLOG SITE!</div>
-    </body>
-    <h2>
-        Team Member Names
-    </h2>
+	<div class="title-sign">WELCOME TO THE MWE BLOG SITE!</div>
+    <h1>
+      MWE
+    </h1>
+    <p>
+        By: Maya Berchin, Ashley Li, Evan Khosh, Robert Chen
+    </p>
 
 
     <h3>
-      Enter your username and password below to proceed.
+      Please enter a unique username and a password.
     </h3>
-    <div class="user_pass">
-      <form action="/register", method="POST">
-        <input type="text" name="username">
-        <input type="text" name="password">
-        <input type="submit" name="sub1">
-      </form>
-    </div>
 
-    <br>
+    <form action="/register", method="POST">
+      <input type="text" placeholder="username" name="username">
+      <input type="text" placeholder="password" name="password">
+      <input type="submit" name="sub1">
+    </form>
+
+		<br>
 
     {{ error }}
+
+		<p> Already have an account? </p>
+		<button onclick= "document.location='/'">Log In</button>
 
   </body>
 
