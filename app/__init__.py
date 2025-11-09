@@ -57,6 +57,11 @@ def home():
     username = session['username']
 
     blog_keys = get_blogs()
+    
+    for ID in blog_keys:
+        if f'{ID}' in request.form:
+            return render_template('viewblog.html', blogid=ID)
+    
     blog_info = [[blog_keys[i], get_blog_name(blog_keys[i]), get_blog_author(blog_keys[i])] for i in range(len(blog_keys))]
 
     return render_template('home.html', username=username, blogs=blog_info)
@@ -100,7 +105,7 @@ def viewblog():
     if not 'username' in session:
         return redirect("/")
 
-    entries = get_blog_entries(blogid)
+    entries = get_entries(blogid)
 
     if request.method == 'POST':
         for entryid in entries:
