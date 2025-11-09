@@ -56,10 +56,10 @@ def home():
 
     username = session['username']
 
-    blog_keys = all_blogs()
-    blog_info = [[get_blog_name(all_blogs[i]), get_blog_author(all_blogs[i])] for i in range(len(blog_keys))]
+    blog_keys = get_blogs()
+    blog_info = [[blog_keys[i], get_blog_name(blog_keys[i]), get_blog_author(blog_keys[i])] for i in range(len(blog_keys))]
 
-    return render_template('home.html', username, blogs=blog_info)
+    return render_template('home.html', username=username, blogs=blog_info)
 
 
 @app.route("/editpf", methods=['GET', 'POST'])

@@ -281,11 +281,11 @@ def get_blogs():
 
 
 def get_blog_name(blog_id):
-    return get_field("blogs", "blog_id", blog_id, blog_name)
+    return get_field("blogs", "blog_id", blog_id, "blog_name")
 
 
 def get_blog_author(blog_id):
-    return get_field("blogs", "blog_id", blog_id, author_username)
+    return get_field("blogs", "blog_id", blog_id, "author_username")
 
 
 #----------BLOG-MUTATORS----------#
