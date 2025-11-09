@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
 from data import *
 
+
 app = Flask(__name__)
 
 app.config['SESSION_PERMANENT'] = False
@@ -53,7 +54,12 @@ def home():
         session.clear()
         return redirect('/')
 
-    return render_template('home.html')
+    username = session['username']
+
+    blog_keys = all_blogs()
+    blog_info = [[get_blog_name(all_blogs[i]), get_blog_author(all_blogs[i])] for i in range(len(blog_keys))]
+
+    return render_template('home.html', username, blogs=blog_info)
 
 
 @app.route("/editpf", methods=['GET', 'POST'])

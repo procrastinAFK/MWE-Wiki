@@ -12,13 +12,17 @@
   </head>
 
   <body>
-		
+
 		Hey there, {{ username }}! Functional blog site coming soon :)
-		
+
 		<form>
-            <input type="submit" formmethod="post" name="logout" value="Logout">
-        </form>
-		
+      <input type="submit" formmethod="post" name="logout" value="Logout">
+    </form>
+
+    {% for blog in blogs %}
+      {{ blog[0] }}, {{ blog[1] }}
+    {% endfor %}
+
   </body>
 
 </html>
