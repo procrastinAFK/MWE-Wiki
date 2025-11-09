@@ -129,13 +129,14 @@ def profile():
     if not 'username' in session:
         return redirect("/")
     
-    username = session["username"]
-    
     if 'logout' in request.form:
             session.clear()
             return redirect('/')
+    
+    username = session["username"]
+    bio = get_bio(username)
             
-    return render_template("profile.html", username = username)
+    return render_template("profile.html", username = username, bio=bio)
 
 
 if (__name__ == "__main__"):

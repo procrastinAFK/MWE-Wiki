@@ -8,8 +8,8 @@
 	<body>
 	
 		<button onclick= "document.location='/'">Home</button>
-		<button onclick= "document.location='/newblog'">Create Blogs</button>
-		<button onclick= "document.location='/editntry'">Edit Blog</button>
+		<button onclick= "document.location='/newblog'">New Blog</button>
+		<button onclick= "document.location='/editpf'">Edit Profile</button>
 		<form>
 					<input type="submit" formmethod="post" name="logout" value="Logout">
 		</form>
@@ -17,6 +17,9 @@
 		<h1>
 			Welcome {{ username }}!!!
 		</h1>
+		<p> About me: </p>
+		{{ bio }}
+		<br>
 		<h2>
 			Blogs Created:
 		</h2>
