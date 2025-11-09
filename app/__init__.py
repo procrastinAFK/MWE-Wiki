@@ -114,6 +114,8 @@ def editpf():
 def viewblog():
     if not 'username' in session:
         return redirect("/")
+        
+    username = session["username"]
 
     entries = get_entries(blogid)
 
@@ -126,13 +128,8 @@ def viewblog():
             session.clear()
             return redirect('/')
 
-    return render_template('viewblog.html', blogid=blogid)
+    return render_template('viewblog.html', blogid=blogid, username=username)
 
-
-@app.route("/viewblog", methods=['GET', 'POST'])
-def viewblog():
-    username = session["username"]
-    return render_template("viewblog.html", username = username)
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
