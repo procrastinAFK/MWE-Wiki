@@ -84,6 +84,7 @@ def home():
 
 @app.route("/editpf", methods=['GET', 'POST'])
 def editpf():
+    style = url_for('static', filename='style.css')
     if not 'username' in session:
         return redirect("/")
 
@@ -96,14 +97,14 @@ def editpf():
                 session['username'] = request.form['username']
 
             except ValueError as e:
-                return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), error=e)
+                return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), error=e, url=style)
 
         if 'password_form' in request.form:
             try:
                 change_password(session['username'], request.form['old_pass'], request.form['new_pass'])
 
             except ValueError as e:
-                return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), error=e)
+                return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), error=e, url=style)
 
         if 'bio_form' in request.form:
             change_bio(session['username'], request.form['bio'])
@@ -112,7 +113,7 @@ def editpf():
             session.clear()
             return redirect('/')
 
-    return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']))
+    return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']), url=style)
 
 
 @app.route("/viewblog", methods=['GET', 'POST'])
