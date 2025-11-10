@@ -63,5 +63,5 @@ python __init__.py
 ```
 http://127.0.0.1:5000
 ```
-on your preferred browser
+or whatever link your terminal tells the app is running on on your preferred browser
 - Have fun on the website!

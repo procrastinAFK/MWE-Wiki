@@ -68,3 +68,23 @@ evanK -- 2025-11-9 11:59
 	Finished edit entry
 	Finished new blog
 	Fixed links and calls to other functions to include paramaters
+
+mayaB -- 2025-11-10 01:44
+FINAL TOUCHES
+	Kinda forgot to do devlog for some stuff... but it all came together today and yesterday so here:
+	Attempted to write code for view, edit, new. Got working code, but most of it was overwritten by Evan in the end
+	Added headers to all files
+	Fixed formatting so that most recent blogs come first, most recent entries come first
+	Did some minor debugging in data.py
+	Added details to readme
+	Generally polished formatting for most pages, fixed many links to be working buttons
+	Tested with 3/4 teammates!
+
+ashleyL -- 2025-11-10 02:15
+FINAL TOUCHES
+	Designed the front end and used CSS stylize parts.
+	After certain merge conflicts, the CSS for buttons broke, and 3 people including myself was pushing to main.
+	I decided to wait for the final code in order to minimize conflits.
+	After waiting, the code broke even on a clean repository clone of the most updated code.
+	Maya has been trying to trouble shoot while my eyes can't stay open.
+	I am overall grateful for the chance to learn CSS while it happened.
