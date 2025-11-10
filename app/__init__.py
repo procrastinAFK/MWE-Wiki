@@ -16,15 +16,8 @@ app.secret_key = 'asdhajskjbweifnoihgis'
 @app.route('/', methods=['GET', 'POST'])
 def login():
     style = url_for('static', filename='style.css')
-    if request.method == 'POST':
-        #print("maybe good things")
-        print(auth(request.form['username'], request.form['password']))
-        if auth(request.form['username'], request.form['password']):
-            #print("good things")
-            session['username'] = request.form['username']
-            return redirect("/home")
 
-    elif 'username' in session:
+    if 'username' in session:
         return redirect("/home")
 
     if request.method == 'POST':
@@ -36,14 +29,16 @@ def login():
         except ValueError as e:
                 return render_template('login.html', url=style, error=e)
 
-
-
     return render_template('login.html', url=style);
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     style = url_for('static', filename='style.css')
+    
+    if 'username' in session:
+        return redirect("/home")
+    
     if request.method == 'POST':
         try:
             register_user(request.form['username'], request.form['password'])
@@ -59,6 +54,7 @@ def register():
 @app.route("/home", methods=['GET','POST'])
 def home():
     style = url_for('static', filename='style.css')
+    
     if not 'username' in session:
         return redirect("/")
 
@@ -86,6 +82,8 @@ def home():
 
 @app.route("/viewblog/<string:blogid>", methods=['GET', 'POST'])
 def viewblog(blogid):
+    style = url_for('static', filename='style.css')
+    
     if not 'username' in session:
         return redirect("/")
     
@@ -112,11 +110,13 @@ def viewblog(blogid):
         entryudates.append(get_entry_udate(entry))
         entryedates.append(get_entry_edate(entry))
     
-    return render_template('viewblog.html', username=session['username'], length=len(entrynames), blog_name=get_blog_name(blogid), blog_author=get_blog_author(blogid), entry_ids=get_entries(blogid), entry_names=entrynames, entry_contents=entrycontents, entry_udates=entryudates, entry_edates=entryedates)
+    return render_template('viewblog.html', url=style, username=session['username'], length=len(entrynames), blog_name=get_blog_name(blogid), blog_author=get_blog_author(blogid), entry_ids=get_entries(blogid), entry_names=entrynames, entry_contents=entrycontents, entry_udates=entryudates, entry_edates=entryedates)
 
 
 @app.route("/newblog", methods=['GET', 'POST'])
-def newblog(): 
+def newblog():
+    style = url_for('static', filename='style.css')
+    
     if not 'username' in session:
         return redirect("/")
 
@@ -132,13 +132,15 @@ def newblog():
                 ID = add_blog(request.form['blogname'], session['username'])
                 return redirect(url_for('viewblog', blogid=ID))
             except ValueError as e:
-                return render_template('newblog.html', username=session['username'], error=e)
+                return render_template('newblog.html', url=style, username=session['username'], error=e)
 
-    return render_template('newblog.html', username=session['username'])
+    return render_template('newblog.html', url=style, username=session['username'])
 
 
 @app.route("/editntry/<string:entryid>", methods=['GET', 'POST'])
 def editntry(entryid):
+    style = url_for('static', filename='style.css')
+    
     if not 'username' in session:
         return redirect("/")
 
@@ -150,10 +152,12 @@ def editntry(entryid):
         update_entry(entryid, request.form['entry_name'], request.form['entry_contents'])
         return redirect(url_for('viewblog', blogid=get_entry_blog(entryid)))
         
-    return render_template("editntry.html", entry_id=entryid, blog_name=get_blog_name(get_entry_blog(entryid)), entry_name=get_entry_name(entryid), entry_contents=get_entry_contents(entryid))
+    return render_template("editntry.html", url=style, entry_id=entryid, blog_name=get_blog_name(get_entry_blog(entryid)), entry_name=get_entry_name(entryid), entry_contents=get_entry_contents(entryid))
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
+    style = url_for('static', filename='style.css')
+    
     if not 'username' in session:
         return redirect("/")
     
@@ -175,12 +179,13 @@ def profile():
     
     blogs = [[blogIDs[i], get_blog_name(blogIDs[i]), username] for i in range(len(blogIDs))]
 
-    return render_template("profile.html", username = username, bio=bio, blogs=blogs)
+    return render_template("profile.html", url=style, username = username, bio=bio, blogs=blogs)
 
 
 @app.route("/editpf", methods=['GET', 'POST'])
 def editpf():
     style = url_for('static', filename='style.css')
+    
     if not 'username' in session:
         return redirect("/")
     
@@ -208,7 +213,7 @@ def editpf():
         if 'bio_form' in request.form:
             change_bio(session['username'], request.form['bio'])
 
-    return render_template('editpf.html', username=session['username'], bio=get_bio(session['username']))
+    return render_template('editpf.html', url=style, username=session['username'], bio=get_bio(session['username']))
 
 
 if (__name__ == "__main__"):
