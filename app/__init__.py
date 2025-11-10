@@ -64,20 +64,22 @@ def home():
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
-            return redirect(url_for('/viewblog', blogid=ID))
+            session['blogid'] = f'{ID}'
+            return redirect('/viewblog')
 
     blog_info = [[blog_keys[i], get_blog_name(blog_keys[i]), get_blog_author(blog_keys[i])] for i in range(len(blog_keys))]
 
     return render_template('home.html', username=username, blogs=blog_info)
 
 
-@app.route("/viewblog<blogid>", methods=['GET', 'POST'])
-def viewblog(blog):
+@app.route("/viewblog", methods=['GET', 'POST'])
+def viewblog():
     
     if not 'username' in session:
         return redirect("/")
         
     username = session["username"]
+    blogid = session['blogid']
     blogname = get_blog_name(blogid)
     author_username = get_blog_author(blogid)
     entries = get_entries(blogid)
@@ -120,9 +122,8 @@ def create_blog():
     
     username = session["username"]
     blogid = add_blog(request.form['newblog_title'], username)
-    session['blogid'] = blogid
-    
-    return redirect(url_for('/viewblog', blogid=blogid))
+    session['blogid'] = f'{blogid}'
+    return redirect('/viewblog')
 
 
 @app.route("/profile", methods=['GET', 'POST'])
@@ -144,7 +145,8 @@ def profile():
         
     for ID in blogIDs:
         if f'{ID}' in request.form:
-            return redirect(url_for('viewblog', blogid=ID))
+            session['blogid'] = f'{ID}'
+            return redirect('/viewblog')
     
     blogs = [[blogIDs[i], get_blog_name(blogIDs[i]), username] for i in range(len(blogIDs))]
             
