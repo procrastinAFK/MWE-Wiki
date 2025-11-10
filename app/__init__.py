@@ -77,20 +77,32 @@ def home():
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
+<<<<<<< HEAD
             return redirect(url_for('/viewblog', blogid=ID, url=style))
+=======
+            session['blogid'] = f'{ID}'
+            return redirect('/viewblog')
+>>>>>>> 0fafe336723a4d3f16c6287193bc8e5b672f9a88
 
     blog_info = [[blog_keys[i], get_blog_name(blog_keys[i]), get_blog_author(blog_keys[i])] for i in range(len(blog_keys))]
 
     return render_template('home.html', username=username, blogs=blog_info, url=style)
 
 
+<<<<<<< HEAD
 @app.route("/viewblog<blogid>", methods=['GET', 'POST'])
 def viewblog(blog):
 
+=======
+@app.route("/viewblog", methods=['GET', 'POST'])
+def viewblog():
+    
+>>>>>>> 0fafe336723a4d3f16c6287193bc8e5b672f9a88
     if not 'username' in session:
         return redirect("/")
 
     username = session["username"]
+    blogid = session['blogid']
     blogname = get_blog_name(blogid)
     author_username = get_blog_author(blogid)
     entries = get_entries(blogid)
@@ -133,9 +145,14 @@ def create_blog():
 
     username = session["username"]
     blogid = add_blog(request.form['newblog_title'], username)
+<<<<<<< HEAD
     session['blogid'] = blogid
 
     return redirect(url_for('/viewblog', blogid=blogid))
+=======
+    session['blogid'] = f'{blogid}'
+    return redirect('/viewblog')
+>>>>>>> 0fafe336723a4d3f16c6287193bc8e5b672f9a88
 
 
 @app.route("/profile", methods=['GET', 'POST'])
@@ -157,8 +174,14 @@ def profile():
 
     for ID in blogIDs:
         if f'{ID}' in request.form:
+<<<<<<< HEAD
             return redirect(url_for('viewblog', blogid=ID))
 
+=======
+            session['blogid'] = f'{ID}'
+            return redirect('/viewblog')
+    
+>>>>>>> 0fafe336723a4d3f16c6287193bc8e5b672f9a88
     blogs = [[blogIDs[i], get_blog_name(blogIDs[i]), username] for i in range(len(blogIDs))]
 
     return render_template("profile.html", username = username, bio=bio, blogs=blogs)

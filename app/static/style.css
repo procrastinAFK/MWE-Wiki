@@ -63,6 +63,15 @@ body {
   margin: 10px 0;
   box-sizing: border-box;
   }
+  input[type=submit] {
+    background-color: #f8f9fa;
+    border: 2px solid #582f0e;
+    border-radius: 8px;
+    width: 10%;
+    padding: 10px;
+    margin: 18px 0;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 .error{
