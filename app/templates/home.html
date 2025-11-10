@@ -8,27 +8,36 @@
 <html>
 
   <head>
+    <link rel="stylesheet"
+          type="text/css"
+          href={{url}}>
     <title> MWE--Home </title>
   </head>
 
   <body>
+    <div class="title">Hey there, {{username}}!</div>
+    <h1>
+    <div class="sign3">Welcome to Homepage :)</div>
+  </h1>
 
-		Hey there, {{ username }}! Welcome to your homepage!
-		
-		<br>
-		<button onclick= "document.location='/profile'">Profile</button>
 
-		<form>
-      <input type="submit" formmethod="post" name="logout" value="Logout">
-    </form>
-		
-		<h1> Blogs </h1>
+		<button class="buttons" onclick= "document.location='/profile'">Profile</button>
+
+    <div class="forms">
+		    <form>
+          <input type="submit" formmethod="post" name="logout" value="Logout">
+      </form>
+    </div>
+
+		<body>
+      <div class="title">Blogs:</div>
+    </body>
 
     {% for blog in blogs %}
 			<p> {{ blog[1] }} by {{ blog[2] }} </p>
 			<form>
 				<input type="submit" formmethod="post" name="{{ blog[0] }}" value="View blog">
-			</form> 
+			</form>
     {% endfor %}
 
   </body>

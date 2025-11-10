@@ -15,31 +15,30 @@
   </head>
 
   <body>
-	<div class="title-sign">WELCOME TO THE MWE BLOG SITE!</div>
-    <h1>
-      MWE
-    </h1>
+	<div class="title">WELCOME TO THE MWE BLOG SITE!</div>
+
     <p>
-        By: Maya Berchin, Ashley Li, Evan Khosh, Robert Chen
+      <div class="sign2">By: Maya Berchin, Ashley Li, Evan Khosh, Robert Chen</div>
     </p>
 
-
     <h3>
-      Please enter a unique username and a password.
+      <div class="sign3">Please enter a unique username and a password.</div>
     </h3>
 
-    <form action="/register", method="POST">
-      <input type="text" placeholder="username" name="username">
-      <input type="text" placeholder="password" name="password">
-      <input type="submit" name="sub1">
-    </form>
+    <div class="forms">
+      <form action="/register", method="POST">
+        <input type="text" placeholder="username" name="username">
+        <input type="text" placeholder="password" name="password">
+        <br> <input type="submit" name="sub1">
+      </form>
+    </div>
 
-		<br>
+    <div class="error">{{ error }}</div>
 
-    {{ error }}
-
-		<p> Already have an account? </p>
-		<button onclick= "document.location='/'">Log In</button>
+    <h3>
+    <div class="sign3">Already have an account?</div>
+    </h3>
+		<button class="buttons" onclick= "document.location='/'">Log In</button>
 
   </body>
 

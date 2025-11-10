@@ -3,21 +3,35 @@ body {
     background-color: #ede0d4
 }
 
-.title-sign {
+.title {
   font-family: "Malgun Gothic";
   TEXT-ALIGN: CENTER;
   FONT-SIZE: 50px;
   COLOR: #582f0e;
 }
 
-.instruction-sign {
+.sign2 {
   font-family: "Courier";
   TEXT-ALIGN: CENTER;
-  FONT-SIZE: 20px;
+  FONT-SIZE: 22px;
   COLOR: #582f0e;
 }
 
-.user_pass {
+.sign3 {
+  font-family: "Courier";
+  TEXT-ALIGN: LEFT;
+  FONT-SIZE: 22px;
+  COLOR: #582f0e;
+}
+
+.text{
+  font-family: "Times New Roman";
+  TEXT-ALIGN: LEFT;
+  FONT-SIZE: 18px;
+  COLOR: #582f0e;
+}
+
+.forms {
   input[type=text] {
   background-color: #f8f9fa;
   border: 2px solid #582f0e;
@@ -39,14 +53,14 @@ body {
   }
 }
 
-.reg-sign{
-  font-family: "Courier";
+.error{
+  font-family: "Times New Roman";
   TEXT-ALIGN: LEFT;
   FONT-SIZE: 20px;
-  COLOR: #582f0e;
+  COLOR: red;
 }
 
-.reg-butt{
+.buttons{
   background-color: #f8f9fa;
   border: 2px solid #582f0e;
   border-radius: 8px;

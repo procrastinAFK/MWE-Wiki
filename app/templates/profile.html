@@ -2,31 +2,47 @@
 
 <html>
 	<head>
+		<link rel="stylesheet"
+					type="text/css"
+					href={{url}}>
 		<title>Profile</title>
 	</head>
-	
+
 	<body>
-	
-		<button onclick= "document.location='/'">Home</button>
-		<button onclick= "document.location='/newblog'">New Blog</button>
-		<button onclick= "document.location='/editpf'">Edit Profile</button>
-		<form>
+
+		<div class="title">Hey there, {{username}}!</div>
+    <h1>
+    <div class="sign3">Welcome to Profile :)</div>
+  </h1>
+
+		<button class="buttons" onclick= "document.location='/'">Home</button>
+		<button class="buttons" onclick= "document.location='/newblog'">New Blog</button>
+		<button class="buttons" onclick= "document.location='/editpf'">Edit Profile</button>
+
+    <div class="forms">
+			<form>
 					<input type="submit" formmethod="post" name="logout" value="Logout">
-		</form>
+			</form>
+		</div>
+
 		<br>
-		<h1>
-			Welcome {{ username }}!!!
-		</h1>
-		<p> About me: </p>
-		{{ bio }}
+
+		<h2>
+			<div class="sign3">About me: </div>
+		</h2>
+
+		<div class="text">
+			{{ bio }}
+		</div>
+
 		<br>
 		<h2>
-			Blogs Created:
+		<div class="sign3">Blogs Created: </div>
 		</h2>
 		<p>
 			{{ blogs }}
 		</p>
-		
+
 	</body>
 
 </html>

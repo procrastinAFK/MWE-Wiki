@@ -58,6 +58,7 @@ def register():
 
 @app.route("/home", methods=['GET','POST'])
 def home():
+    style = url_for('static', filename='style.css')
     if not 'username' in session:
         return redirect("/")
 
@@ -68,17 +69,17 @@ def home():
     username = session['username']
 
     if 'profile' in request.form:
-        return render_template('profile.html', username=username, blogs=get_blogs(username))
+        return render_template('profile.html', username=username, blogs=get_blogs(username), url=style)
 
     blog_keys = all_blogs()[1:] # get rid of 'None'
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
-            return render_template('viewblog.html', blogid=ID)
+            return render_template('viewblog.html', blogid=ID, url=style)
 
     blog_info = [[blog_keys[i], get_blog_name(blog_keys[i]), get_blog_author(blog_keys[i])] for i in range(len(blog_keys))]
 
-    return render_template('home.html', username=username, blogs=blog_info)
+    return render_template('home.html', username=username, blogs=blog_info, url=style)
 
 
 @app.route("/editpf", methods=['GET', 'POST'])
@@ -136,6 +137,7 @@ def viewblog():
 
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
+    style = url_for('static', filename='style.css')
 
     if not 'username' in session:
         return redirect("/")
@@ -147,7 +149,7 @@ def profile():
     username = session["username"]
     bio = get_bio(username)
 
-    return render_template("profile.html", username = username, bio=bio)
+    return render_template("profile.html", username = username, bio=bio, url=style)
 
 
 if (__name__ == "__main__"):
