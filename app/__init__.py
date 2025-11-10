@@ -58,7 +58,9 @@ def home():
     if 'profile' in request.form:
         return render_template('profile.html', username=username, blogs=get_blogs(username))
 
-    blog_keys = all_blogs()[1:] # get rid of 'None'
+    blog_keys = all_blogs()
+    if blog_keys[0] == 'None':
+        blog_keys = blog_keys[1:]
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
@@ -108,6 +110,8 @@ def newblog():
     if 'logout' in request.form:
         session.clear()
         return redirect('/')
+    
+    username = session["username"]
 
     if request.method == 'POST':
         if 'newblog_title' in request.form:
@@ -117,7 +121,6 @@ def newblog():
     return render_template('newblog.html', username=session['username'])
 
 
-@app.route("/editntry/<string:entryid>", methods=['GET', 'POST'])
 def editntry(entryid):
     if not 'username' in session:
         return redirect("/")
@@ -143,8 +146,18 @@ def profile():
     
     username = session["username"]
     bio = get_bio(username)
+    
+    blogIDs = get_blogs(username)
+    if blogIDs[0] == 'None':
+        blogIDs = blogIDs[1:]
+        
+    for ID in blogIDs:
+        if f'{ID}' in request.form:
+            return redirect(url_for('viewblog', blogid=ID))
+    
+    blogs = [[blogIDs[i], get_blog_name(blogIDs[i]), username] for i in range(len(blogIDs))]
             
-    return render_template("profile.html", username = username, bio=bio)
+    return render_template("profile.html", username = username, bio=bio, blogs=blogs)
     
 
 @app.route("/editpf", methods=['GET', 'POST'])
