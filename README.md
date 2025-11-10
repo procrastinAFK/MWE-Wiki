@@ -38,6 +38,7 @@ python -m venv .venv
     ```. .venv/bin/activate```
   - Windows:
     ```. .venv\Scripts\activate```
+ 
 (To deactivate when you no longer want to use your virtual environment, just type ```deactivate```)
 
 - Install the required modules using
