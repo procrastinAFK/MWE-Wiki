@@ -41,7 +41,7 @@
 		</h2>
 			{% for blog in blogs %}
 			<p> {{ blog[1] }} by {{ blog[2] }} </p>
-			<form action="/viewblog" method="POST">
+			<form action="/viewblog/{{ blog[0] }}" method="POST">
 				<input type="submit" name="{{ blog[0] }}" value="View Blog">
 			</form>
     {% endfor %}

@@ -72,7 +72,7 @@ def home():
         return render_template('profile.html', username=username, blogs=get_blogs(username), url=style)
 
     blog_keys = all_blogs()
-    if blog_keys[0] == 'None':
+    if len(blog_keys) > 0 and blog_keys[0] == 'None':
         blog_keys = blog_keys[1:]
 
     for ID in blog_keys:
