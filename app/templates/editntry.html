@@ -8,17 +8,19 @@
 <html>
 
   <head>
-    <title> MWE--EditPage </title>
-    Hey there, {{ username }}! Edit your page!<br><br>
-  </head>
-  <button onclick= "document.location='viewblog.html'">Blogs</button><br><br>
 
-	<body>
-    <form action="/action">
-      <label for="Input">input:</label>
-      <input type="text" id="input" value={{blog_data}} name="input"><br><br>
-      <input type="submit" value="Submit">
+    <title> MWE--Edit Entry </title>
+
+  </head>
+
+  <body>
+	<h1> Blog: {{ blog_name }} </h1>
+
+    <form action="/editntry/{{ entry_id }}", method="POST">
+      <input type="text" value="{{ entry_name }}" name="entry_name">
+      <input type="text" value="{{ entry_contents }}" name="entry_contents">
+      <input type="submit" name="sub1">
     </form>
 
-	</body>
+  </body>
 </html>

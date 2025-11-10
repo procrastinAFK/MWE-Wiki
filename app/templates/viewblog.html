@@ -3,33 +3,43 @@
 <html>
 
   <head>
-    <title> {{ name }} by {{ author }} </title>
+    <title> View Blog </title>
   </head>
 
   <body>
+  
+        <button onclick= "document.location='/'">Home</button>
+        <button onclick= "document.location='/profile'">Profile</button>
+        <button onclick= "document.location='/newblog'">Create Blogs</button>
+  
+      <h1>  {{ blog_name }} by {{ blog_author }} </h1>
 
-        {% for entry in entries %}
+        {% for entry_id in entry_ids %}
 
-            <p> {{ entry[1] }} by {{ entry[2] }} </p>
-						
-							<form>
-								<input type="submit" formmethod="post" name="{{ entry[0] }}" value="View Entry">
-							</form> 
+            <h3> {{ entry_names[loop.index0] }} </h3>
 
-            {% if username == author %}
+            <p> {{ entry_contents[loop.index0] }} </p>
+
+            {% if username == blog_author %}
 
                 <form>
-                    <input type="submit" formmethod="post" name="{{ entryid }}" value="Edit Entry">
+                    <input type="submit" formmethod="post" name="{{ entry_id }}" value="Edit Entry">
                 </form>
 
             {% endif %}
 
         {% endfor %}
 
-        <button onclick= "document.location='/'">Home</button>
-        <button onclick= "document.location='/profile'">Profile</button>
-        <button onclick= "document.location='/newblog'">Create Blog</button>
+        <br>
+        
+        {% if username == blog_author %}
 
+                <form>
+                    <input type="submit" formmethod="post" name="add_entry" value="Add Entry">
+                </form>
+
+        {% endif %}
+        
         <br>
 
         <form>
