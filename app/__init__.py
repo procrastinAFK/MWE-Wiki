@@ -93,7 +93,7 @@ def viewblog():
         session.clear()
         return redirect('/')
     
-    data = [[entries[i], get_entry_name(entries[i]), get_entry_author(entries[i])] for i in range(len(entries))]
+    data = [[entries[i], get_entry_name(entries[i]), get_entry_author(entries[i]), get_entry_contents(entries[i])] for i in range(len(entries))]
             
     return render_template('viewblog.html', username=username, author=author_username, name=blogname, blogid=blogid, entries=data)
 
@@ -124,6 +124,20 @@ def create_blog():
     blogid = add_blog(request.form['newblog_title'], username)
     session['blogid'] = f'{blogid}'
     return redirect('/viewblog')
+
+
+# helper for editntry
+@app.route("/new_entry", methods=['GET', 'POST'])
+def new_entry():
+    
+    if not 'username' in session:
+        return redirect("/")
+    
+    username = session["username"]
+    blogid = session['blogid']
+    entry_id = add_entry(request.form['new_entry'], '')
+    session['entryid'] = f'{entryid}'
+    return redirect('/editntry')
 
 
 @app.route("/profile", methods=['GET', 'POST'])

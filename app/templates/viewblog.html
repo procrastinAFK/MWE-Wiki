@@ -7,16 +7,31 @@
   </head>
 
   <body>
+	
+		<button onclick= "document.location='/'">Home</button>
+        <button onclick= "document.location='/profile'">Profile</button>
+
+        <br>
+
+        <form>
+            <input type="submit" formmethod="post" name="logout" value="Logout">
+        </form>
+	
+		<h1> {{ name }} by {{ author }} </h1>
 		
-		{{ blogid }}
+		{% if username == author %}
+			New entry:
+			<form action="/new_entry method="POST">
+					<input type="text" placeholder="Entry name" name="newentry_title">
+					<input type="submit" name="submit">
+			</form>
+		{% endif %}
 
         {% for entry in entries %}
 
-            <p> {{ entry[1] }} by {{ entry[2] }} </p>
+            <h3> {{ entry[1] }} by {{ entry[2] }} </h3>
 						
-							<form>
-								<input type="submit" formmethod="post" name="{{ entry[0] }}" value="View Entry">
-							</form> 
+							<p> {{ entry[3] }} </p>
 
             {% if username == author %}
 
@@ -27,16 +42,6 @@
             {% endif %}
 
         {% endfor %}
-
-        <button onclick= "document.location='/'">Home</button>
-        <button onclick= "document.location='/profile'">Profile</button>
-        <button onclick= "document.location='/newblog'">Create Blog</button>
-
-        <br>
-
-        <form>
-            <input type="submit" formmethod="post" name="logout" value="Logout">
-        </form>
 
   </body>
 
