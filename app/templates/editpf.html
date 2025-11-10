@@ -8,45 +8,63 @@
 <html>
 
   <head>
+    <link rel="stylesheet"
+          type="text/css"
+          href={{url}}>
+    <title>Profile</title>
     <title> MWE--Edit Profile </title>
   </head>
 
   <body>
 
-		Hey there, {{ username }}! Edit your profile! :)
-		<button onclick= "document.location='/profile'">Profile</button><br><br>
-		<br>
-		
+    <div class="title">Hey there, {{username}}!</div>
+    <h1>
+    <div class="sign3">Edit your profile! :)</div>
+  </h1>
+
+		<button class="buttons" onclick= "document.location='/profile'">Profile</button>
+    <br>
+
+    <div class"error">
 		{{ error }}
+    </div>
 
 		<br><br>
 
-		Change username:
-		<form action="/editpf" method="POST">
+		<div class="sign3">Change username:</div>
+    <div class="forms">
+		    <form action="/editpf" method="POST">
             <input type="text" value="{{ username }}" name="username">
-            <input type="submit" name="username_form">
+            <br><input type="submit" name="username_form">
         </form>
+      </div>
 
         <br>
 
-        Change password:
-		<form action="/editpf" method="POST">
+		<div class="sign3">Change password:</div>
+    <div class="forms">
+		    <form action="/editpf" method="POST">
             <input type="text" placeholder="old password" name="old_pass">
-            <input type="text" placeholder="new password" name="new_pass">
-            <input type="submit" name="password_form">
-        </form>
+            <br><input type="text" placeholder="new password" name="new_pass">
+            <br><input type="submit" name="password_form">
+          </form>
+    </div>
 
         <br>
 
-        Change bio:
-		<form action="/editpf" method="POST">
+		<div class="sign3">Change Bio:</div>
+    <div class="forms2">
+      <form action="/editpf" method="POST">
             <input type="text" value="{{ bio }}" name="bio">
-            <input type="submit" name="bio_form">
+            <br><input type="submit" name="bio_form">
         </form>
+    </div>
 
+    <div class="forms">
         <form>
             <input type="submit" formmethod="post" name="logout" value="Logout">
         </form>
+      </div>
 
   </body>
 
