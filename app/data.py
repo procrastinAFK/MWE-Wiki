@@ -1,6 +1,8 @@
 # MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
 # p00
 # Softdev
+# 10/21/25--11/10/25
+# time spent: many hours over the course of three weeks
 
 import sqlite3   #enable control of an sqlite database
 import secrets  # used to generate ids

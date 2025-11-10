@@ -1,6 +1,8 @@
 # MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
 # p00
 # Softdev
+# 10/21/25--11/10/25
+# time spent: many hours over the course of three weeks
 
 from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
@@ -76,6 +78,7 @@ def home():
             return redirect(url_for('viewblog', blogid=ID))
 
     blog_info = [[blog_keys[i], get_blog_name(blog_keys[i]), get_blog_author(blog_keys[i])] for i in range(len(blog_keys))]
+    blog_info.reverse()
 
     return render_template('home.html', username=username, blogs=blog_info, url=style)
 
@@ -104,13 +107,15 @@ def viewblog(blogid):
     entrycontents = []
     entryudates = []
     entryedates = []
-    for entry in get_entries(blogid):
+    entry_ids = get_entries(blogid)
+    entry_ids.reverse()
+    for entry in entry_ids:
         entrynames.append(get_entry_name(entry))
         entrycontents.append(get_entry_contents(entry))
         entryudates.append(get_entry_udate(entry))
         entryedates.append(get_entry_edate(entry))
     
-    return render_template('viewblog.html', url=style, username=session['username'], length=len(entrynames), blog_name=get_blog_name(blogid), blog_author=get_blog_author(blogid), entry_ids=get_entries(blogid), entry_names=entrynames, entry_contents=entrycontents, entry_udates=entryudates, entry_edates=entryedates)
+    return render_template('viewblog.html', url=style, username=session['username'], length=len(entrynames), blog_name=get_blog_name(blogid), blog_author=get_blog_author(blogid), entry_ids=entry_ids, entry_names=entrynames, entry_contents=entrycontents, entry_udates=entryudates, entry_edates=entryedates)
 
 
 @app.route("/newblog", methods=['GET', 'POST'])
@@ -178,6 +183,7 @@ def profile():
             return redirect('/viewblog')
     
     blogs = [[blogIDs[i], get_blog_name(blogIDs[i]), username] for i in range(len(blogIDs))]
+    blogs.reverse()
 
     return render_template("profile.html", url=style, username = username, bio=bio, blogs=blogs)
 

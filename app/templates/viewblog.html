@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 
+<!-- 
+     MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
+		 p00
+     Softdev
+		 10/21/25--11/10/25
+     time spent: many hours over the course of three weeks 
+-->
+
 <html>
 
   <head>
@@ -16,10 +24,21 @@
         <button onclick= "document.location='/newblog'">Create Blogs</button>
   
       <h1>  {{ blog_name }} by {{ blog_author }} </h1>
+			
+			{% if username == blog_author %}
+
+                <form>
+                    <input type="submit" formmethod="post" name="add_entry" value="Add Entry">
+                </form>
+
+        {% endif %}
+				
+				<br>
 
         {% for entry_id in entry_ids %}
 
-            <h3> {{ entry_names[loop.index0] }} </h3>
+            <h3> {{ entry_udates[loop.index0] }} -- {{ entry_names[loop.index0] }} </h3>
+						<p><b>Last edited {{ entry_edates[loop.index0] }}</b>
 
             <p> {{ entry_contents[loop.index0] }} </p>
 
@@ -30,18 +49,10 @@
                 </form>
 
             {% endif %}
+						
+						<br>
 
         {% endfor %}
-
-        <br>
-        
-        {% if username == blog_author %}
-
-                <form>
-                    <input type="submit" formmethod="post" name="add_entry" value="Add Entry">
-                </form>
-
-        {% endif %}
         
         <br>
 
