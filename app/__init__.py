@@ -58,7 +58,9 @@ def home():
     if 'profile' in request.form:
         return render_template('profile.html', username=username, blogs=get_blogs(username))
 
-    blog_keys = all_blogs()[1:] # get rid of 'None'
+    blog_keys = all_blogs()
+    if blog_keys[0] == 'None':
+        blog_keys = blog_keys[1:]
 
     for ID in blog_keys:
         if f'{ID}' in request.form:
@@ -76,7 +78,8 @@ def viewblog():
         return redirect("/")
         
     username = session["username"]
-    blogid = request.args['blogid']
+    blogid = request.args.get('blogid')
+        
     blogname = get_blog_name(blogid)
     author_username = get_blog_author(blogid)
     entries = get_entries(blogid)
@@ -106,12 +109,21 @@ def newblog():
         return redirect('/')
     
     username = session["username"]
-    
-    if 'newblog_title' in request.form:
-        ID = add_blog(request.form['newblog_title'], username)
-        return redirect(url_for('viewblog', blogid=ID))
 
     return render_template('newblog.html', username=username)
+
+
+# helper for new_blog
+@app.route("/create", methods=['GET', 'POST'])
+def create_blog():
+    
+    if not 'username' in session:
+        return redirect("/")
+    
+    username = session["username"]
+    blogid = add_blog(request.form['newblog_title'], username)
+    
+    return redirect('/viewblog', blogid=ID)
 
 
 @app.route("/profile", methods=['GET', 'POST'])
@@ -126,8 +138,18 @@ def profile():
     
     username = session["username"]
     bio = get_bio(username)
+    
+    blogIDs = get_blogs(username)
+    if blogIDs[0] == 'None':
+        blogIDs = blogIDs[1:]
+        
+    for ID in blogIDs:
+        if f'{ID}' in request.form:
+            return redirect(url_for('viewblog', blogid=ID))
+    
+    blogs = [[blogIDs[i], get_blog_name(blogIDs[i]), username] for i in range(len(blogIDs))]
             
-    return render_template("profile.html", username = username, bio=bio)
+    return render_template("profile.html", username = username, bio=bio, blogs=blogs)
     
 
 @app.route("/editpf", methods=['GET', 'POST'])

@@ -26,9 +26,9 @@
 
     {% for blog in blogs %}
 			<p> {{ blog[1] }} by {{ blog[2] }} </p>
-			<form>
-				<input type="submit" formmethod="post" name="{{ blog[0] }}" value="View blog">
-			</form> 
+			<form action="/viewblog" method="POST">
+				<input type="submit" name="{{ blog[0] }}" value="View Blog">
+			</form>
     {% endfor %}
 
   </body>

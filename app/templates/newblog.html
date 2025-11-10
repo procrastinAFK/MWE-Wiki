@@ -16,9 +16,9 @@
     <h2> Create a new blog, {{ username }}! </h2>
 		
 		Title your blog:
-		<form action="/newblog" method="POST">
-				<input type="text" value="{{ title }}" name="username">
-				<input type="submit" name="newblog_title">
+		<form action="/create_blog" method="POST">
+				<input type="text" placeholder="Blog name" name="newblog_title">
+				<input type="submit" name="submit">
 		</form>
     
   </body>
