@@ -8,34 +8,40 @@
 <html>
 
   <head>
+    <link rel="stylesheet"
+          type="text/css"
+          href={{url}}>
     <title> MWE--Login </title>
   </head>
 
   <body>
-		
-		<h1>
-      MWE
-    </h1>
+
+
+      <div class="title">THE MWE BLOG SITE</div>
+
     <p>
-        By: Maya Berchin, Ashley Li, Evan Khosh, Robert Chen
+      <div class="sign2">By: Maya Berchin, Ashley Li, Evan Khosh, Robert Chen</div>
     </p>
-		
+
 		<h3>
-      Enter your username and password below to proceed.
+      <div class="sign3">Please log in to proceed.</div>
     </h3>
-    <form action="/" method="POST">
-      <input type="text" placeholder="username" name="username">
-      <input type="text" placeholder="password" name="password">
-      <input type="submit" name="submit">
-    </form>
-    
+
+    <div class="forms">
+      <form action="/" method="POST">
+        <input type="text" placeholder="username" name="username">
+        <br>  <input type="text" placeholder="password" name="password">
+        <br>  <input type="submit" name="submit">
+      </form>
+    </div>
     {{ error }}
-    
-    <br>
-    
-		<p> Don't have an account yet? </p>
-    <button onclick= "document.location='/register'">Register</button>
-		
+
+    <h3>
+    <div class="sign3">Don't have an account yet?</div>
+    </h3>
+
+    <button class="buttons" onclick= "document.location='/register'">Register</button>
+
   </body>
 
 </html>
