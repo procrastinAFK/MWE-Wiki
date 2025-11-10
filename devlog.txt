@@ -79,3 +79,12 @@ FINAL TOUCHES
 	Added details to readme
 	Generally polished formatting for most pages, fixed many links to be working buttons
 	Tested with 3/4 teammates!
+
+ashleyL -- 2025-11-10 02:15
+FINAL TOUCHES
+	Designed the front end and used CSS stylize parts.
+	After certain merge conflicts, the CSS for buttons broke, and 3 people including myself was pushing to main.
+	I decided to wait for the final code in order to minimize conflits.
+	After waiting, the code broke even on a clean repository clone of the most updated code.
+	Maya has been trying to trouble shoot while my eyes can't stay open.
+	I am overall grateful for the chance to learn CSS while it happened.
