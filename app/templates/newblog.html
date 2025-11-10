@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<!-- MWE (Maya Berchin, Ashley Li, Evan Khosh, Robert Chen)
+		 p00
+		 Softdev
+     -->
+
+<html>
+
+  <head>
+    <title> Create New Blog </title>
+  </head>
+
+  <body>
+	
+    <h2> Create a new blog, {{ username }}! </h2>
+		
+		Title your blog:
+		<form action="/create_blog" method="POST">
+				<input type="text" placeholder="Blog name" name="newblog_title">
+				<input type="submit" name="submit">
+		</form>
+    
+  </body>
+
+</html>

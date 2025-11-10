@@ -3,22 +3,22 @@
 <html>
 
   <head>
-    <title> {% data.get_blog_name({{ blogid }}) %} by {% data.get_blog_author({{ blogid }}) %} </title>
+    <title> {{ name }} by {{ author }} </title>
   </head>
 
   <body>
+		
+		{{ blogid }}
 
-        {% for entryid in data.get_entries({{ blogid }}) %}
+        {% for entry in entries %}
 
-            <h1> {% data.get_entry_name(entryid) %} </h1>
+            <p> {{ entry[1] }} by {{ entry[2] }} </p>
+						
+							<form>
+								<input type="submit" formmethod="post" name="{{ entry[0] }}" value="View Entry">
+							</form> 
 
-            <br>
-
-            <p> {% data.get_entry_contents(entryid) %} </p>
-
-            <br>
-
-            {% if "{{ username }}" == data.get_blog_author(blogid) %}
+            {% if username == author %}
 
                 <form>
                     <input type="submit" formmethod="post" name="{{ entryid }}" value="Edit Entry">
@@ -30,8 +30,7 @@
 
         <button onclick= "document.location='/'">Home</button>
         <button onclick= "document.location='/profile'">Profile</button>
-        <button onclick= "document.location='/newblog'">Create Blogs</button>
-        <button onclick= "document.location='/editntry'">Edit Blog</button><br><br>
+        <button onclick= "document.location='/newblog'">Create Blog</button>
 
         <br>
 
