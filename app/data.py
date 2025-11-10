@@ -187,6 +187,9 @@ def change_bio(username, contents):
 
 def add_blog(blog_name, author_username):
 
+    if blog_name == "":
+        raise ValueError("Blog title must be non-empty")
+
     blog_id = new_blog(blog_name, author_username)
     other_blogs = get_field('userdata', 'username', author_username, 'blog_ids')
 
