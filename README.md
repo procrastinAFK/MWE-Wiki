@@ -1,4 +1,4 @@
-# MWEWiki by Maya Berchin, Ashley Li, Evan Khosh and Robert Chen
+# MWE Blog Site by Maya Berchin, Ashley Li, Evan Khosh and Robert Chen
 
 ### Project 00 Roles:
 Project Manager: Maya
