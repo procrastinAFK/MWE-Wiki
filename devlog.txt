@@ -88,3 +88,14 @@ FINAL TOUCHES
 	After waiting, the code broke even on a clean repository clone of the most updated code.
 	Maya has been trying to trouble shoot while my eyes can't stay open.
 	I am overall grateful for the chance to learn CSS while it happened.
+
+mayaB -- 2025-11-10 02:35
+LAST MIN DETAILS
+	Design doc minor changes to accurately reflect what we did: 
+		added some attributes to tables that weren't originally in the design doc but that we realized we needed
+		added entry_id field
+		removed helper.py since we didn't end up using it
+		added "newblog" task to task delegation table
+	Attempted to dig deeper into alarming issue of site not working on Ashley's computer. Git Bash decided it hates me and
+	won't let me make a new clone of the repo/omits __init__.py when I do. Think it's just a problem on my computer,
+	but I guess we'll find out.
